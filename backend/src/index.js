@@ -4,6 +4,9 @@ import cors from 'cors';
 import { PORT } from './config/config.js';
 import {logger} from "./config/logger.js";
 import morgan from 'morgan';
+import apiRoutes from "./routes/index.js";
+
+
 
 const app = express();
 
@@ -24,7 +27,9 @@ app.use(morgan(morganFormat, {
 }));
 
 app.use(cors());
-app.use(express.json({extended: true}));
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+app.use('/api', apiRoutes);
 
 
 app.get("/", (req, res) => {
