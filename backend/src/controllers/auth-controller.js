@@ -23,8 +23,6 @@ export const signup = async (req, res) => {
     }
 };
 
-
-
 export const login = async(req, res)=>{
     const {email, password} = req.body;
     try{  
@@ -45,3 +43,24 @@ export const login = async(req, res)=>{
         })   
     }
 }
+
+
+export const findUserById = async(req, res)=>{
+    try {
+        const user = await userService.getUserById(req.params.id);
+        return res.status(200).json({
+            success: true,
+            data: user,
+            message: "User found successfully",
+            err:{}
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: {},
+            message: "Something went wrong",
+            err: error
+        })
+    }
+}
+

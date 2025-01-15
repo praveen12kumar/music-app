@@ -5,14 +5,12 @@ const songSchema = new Schema({
         type: String,
         required: true
     },
-    artist: {
+    artists: 
+        {
         type: mongoose.Schema.Types.ObjectId,
         required: "User",
-    },
-    genre: {
-        type: String,
-        required: true
-    },
+        }
+    ,
     year: {
         type: Number,
         required: true
@@ -23,11 +21,10 @@ const songSchema = new Schema({
     },
     songUrl: {
         type: String,
-        required: true
     },
     thumnail: {
         type: String,
-        required: true
+        
     },
 },
 {

@@ -5,6 +5,7 @@ class UserService{
     constructor(){
         this.userRespository = new UserRepository();
     }
+    
     async signup(data) {
         const user = await this.userRespository.create(data);
         return user;
@@ -37,6 +38,15 @@ class UserService{
             //generate token
             const token = user.generateJWTToken();
             return token;    
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async getUserById(id){
+        try {
+            const user = await this.userRespository.get(id);
+            return user
         } catch (error) {
             throw error
         }
