@@ -7,6 +7,12 @@ import { songCreate,
 
     } from '../../controllers/song-controller.js';
 
+import { createPlaylist,   
+        findPlaylistById,
+        findAllPlaylistByArtist,
+        addSongToPlaylist
+ } from '../../controllers/playlist-controller.js';
+
 import {authenticate} from "../../middlewares/authenticate.js";
 
 
@@ -21,11 +27,18 @@ router.get('/user/:id', authenticate, findUserById);
 
 // -------song-----------
 
-router.post('/create', songCreate);
+router.post('/songs/create', songCreate);
 router.get('/songs', authenticate, songByArtist);
-router.get('/artist/:name', authenticate, allSongsOfArtist);
+router.get('/artists/:artistId', authenticate, allSongsOfArtist);
 router.get('/songs/:title', authenticate, getSongByTitle);
 
+
+// -------playlist-----------
+
+router.post('/playlists/create', authenticate, createPlaylist);
+router.get('/playlists/:playlistId', authenticate, findPlaylistById);
+router.get('/playlists/artist/:artistId', authenticate, findAllPlaylistByArtist);
+router.post('/playlists/add/song', authenticate, addSongToPlaylist);
 
 
     

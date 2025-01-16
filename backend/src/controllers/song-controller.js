@@ -3,9 +3,11 @@ import { SongService } from "../services/index.js";
 const songService = new SongService();  
 
 export const songCreate = async (req, res) => {
-    const {title, artists, year, duration} = req.body;
+    
+    const {title, artists, year, duration, songUrl, thumbnail} = req.body;
+    
     try {
-        const song = await songService.createSong({title, artists, year, duration});
+        const song = await songService.createSong({title, artists, year, duration, songUrl, thumbnail});
         return res.status(200).json({
             success: true,
             data: song,
@@ -21,6 +23,8 @@ export const songCreate = async (req, res) => {
         })
     }
 }
+
+// Hold to test
 
 export const songByArtist= async (req, res) => {
     try {
@@ -42,28 +46,39 @@ export const songByArtist= async (req, res) => {
 } 
 
 
-export const allSongsOfArtist = async(req, res)=>{
+
+export const allSongsOfArtist = async(req, res) => {
     try {
-        const songs = await songService.getAllSongsOfArtist(req.params.id);
+        const songs = await songService.getAllSongsOfArtist(req.params.artistId);
         return res.status(200).json({
             success: true,
             data: songs,
-            message: "Song found successfully",
-            err:{}
-        })
+            message: "Songs found successfully",
+            err: {}
+        });
     } catch (error) {
-        return res.status(500).json({
-            success: false,
-            data: {},
-            message: "Something went wrong",
-            err: error
-        })
+        if (error.message === "Artist not found") {
+            return res.status(404).json({
+                success: false,
+                data: {},
+                message: error.message,
+                err: error
+            });
+        } else {
+            return res.status(500).json({
+                success: false,
+                data: {},
+                message: "Something went wrong",
+                err: error
+            });
+        }
     }
-}
+};
+
 
 export const getSongByTitle = async(req, res)=>{
     try {
-        const songs = await songService.getSongByName(req.params.name);
+        const songs = await songService.getSongByName(req.params.title);
         return res.status(200).json({
             success: true,
             data: songs,

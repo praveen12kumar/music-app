@@ -34,9 +34,7 @@ app.use('/api', apiRoutes);
 app.use(passport.initialize());
 passportAuth(passport);
 
-app.get("/", (req, res) => {
-    res.send("Hello World");
-})
+
 
 const setupAndStartServer = function(){
     app.listen(PORT, async() =>{ 

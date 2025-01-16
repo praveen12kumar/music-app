@@ -9,17 +9,21 @@ class SongRepository extends CrudRepository{
     }
 
     async songOfArtist(id){
-        const songs = await Song.find({artists: id}).populate("artists");
+                
+        const songs = await Song.find({artists: id});
+        console.log("songs", songs);
+        
         return songs
     }
 
     async songByArtist(id){
-        const songs = await Song.getAll({artists: id});
+        const songs = await Song.find({artists: id});
         return songs
     }
 
     async songByTitle(title){
-        const songs = await Song.getAll({title: title});
+        const songs = await Song.find({title});
+        console.log("songs", songs);
         return songs
     }
 };

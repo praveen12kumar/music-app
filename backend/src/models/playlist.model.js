@@ -9,6 +9,7 @@ const playlistSchema = new Schema({
         type: String,
         required: true
     },
+    
     songs:[
         {
             type:mongoose.Schema.Types.ObjectId,

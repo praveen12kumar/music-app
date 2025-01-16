@@ -20,18 +20,18 @@ class SongService{
 
 
     async getAllSongsOfArtist(artistId){
-        const artist = await this.userRepository.get(artistId);
-        
+       
+        const artist = await this.userRepository.get(artistId);        
         if(!artist){
             throw new Error("Artist not found");
         }
-        
         const songs = await this.songRepository.songByArtist(artistId);
         return songs
     }
 
+
     async getSongByName(name){
-        const song = await this.songRepository.songByTitle({title: name});
+        const song = await this.songRepository.songByTitle(name);
         return song
     }
 }
