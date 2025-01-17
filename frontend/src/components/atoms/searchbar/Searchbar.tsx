@@ -19,7 +19,7 @@ const Searchbar = () => {
                             placeholder="What do you want to play?" 
                             onChange={(e) => setSearch(e.target.value)} 
                             value={search}
-                            classs="flex-1 bg-transparent text-md font-medium text-white placeholder-gray-400 outline-none"
+                            className="flex-1 bg-transparent text-md font-medium text-white placeholder-gray-400 outline-none"
                     />
                     <div className="h-full flex flex-row gap-2 items-center">
                         <div className="w-[1px] h-8 border-[1px] border-gray-600"></div>

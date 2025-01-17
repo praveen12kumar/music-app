@@ -1,19 +1,22 @@
-import { ReactNode } from "react"
+import React, { ReactNode } from "react";
 
 interface GradientWrapperProps {
-    children:ReactNode;
-    fromColor?:string;
-    viaColor?:string;
-    toColor?:string
+  children: ReactNode;
+  graditientStyles: string
 }
 
+const GradientWrapper: React.FC<GradientWrapperProps> = ({
+  graditientStyles,
+  children,
+}) => {
+  // Build gradient style object dynamically
+  
 
-const GradientWrapper: React.FC<GradientWrapperProps> = ({ children}) => {
   return (
-    <div className={`h-full overflow-y-auto bg-gradient-to-b from-[#333333] via-[#181818] to-[#121212] rounded-md`}>
-        {children}
+    <div className={`h-full overflow-y-auto  ${graditientStyles}`}>
+      {children}
     </div>
-  )
-}
+  );
+};
 
-export default GradientWrapper
+export default GradientWrapper;

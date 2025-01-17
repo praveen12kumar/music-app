@@ -22,7 +22,7 @@ const Sidebar = () => {
         <div className={` flex items-center gap-1 rounded-3xl py-1 px-3  ${active ? "bg-[#333333] transform duration-200" : ""} `}>
           <FiSearch className="size-4  text-gray-300 cursor-pointer" onClick={() => setActive(!active)}/>
 
-          <Input type="text" placeholder="" onChange={(e) => setSearch(e.target.value)} value={search} classs={`bg-transparent text-md font-medium text-white outline-none`} />
+          <Input type="text" placeholder="" onChange={(e) => setSearch(e.target.value)} value={search} className={`bg-transparent text-md font-medium text-white outline-none`} />
         </div>
         {/*Divider*/}
 

@@ -4,6 +4,8 @@ import PlayerLayout from './layouts/PlayerLayout'
 import {Routes, Route} from "react-router-dom";
 import Home from './pages/home/Home';
 import Search from './pages/search/Search';
+import Login from './components/organisms/login/Login';
+import Signup from './components/organisms/signup/Signup';
 
 
 function App() {
@@ -13,6 +15,8 @@ function App() {
     <>
       <Routes>
         <Route path='/' element={<PlayerLayout><Home/></PlayerLayout>}/>
+        <Route path="/login" element={<Login/>}/>
+        <Route path="/signup" element={<Signup/>}/>
         <Route path='/search' element={<PlayerLayout><Search/></PlayerLayout>}/>
       </Routes>
     </>

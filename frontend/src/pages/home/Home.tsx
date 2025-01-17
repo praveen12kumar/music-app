@@ -4,7 +4,7 @@ import ForyouPlaylist from "../../components/molecules/foryouPlaylist/ForyouPlay
 
 const Home = () => {
   return (
-    <GradientWrapper fromColor="" viaColor="" toColor="">
+    <GradientWrapper graditientStyles="custom-gradient-black">
       <div className="w-[100%] h-full flex flex-col bg-transparent px-8 py-6 gap-6 relative ">
           <MainPlayerHeader/>
           
