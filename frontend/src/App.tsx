@@ -6,7 +6,7 @@ import Home from './pages/home/Home';
 import Search from './pages/search/Search';
 import Login from './components/organisms/login/Login';
 import Signup from './components/organisms/signup/Signup';
-
+import Profile from './pages/profile/Profile';
 
 function App() {
   
@@ -18,6 +18,7 @@ function App() {
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
         <Route path='/search' element={<PlayerLayout><Search/></PlayerLayout>}/>
+        <Route path='/profile' element={<PlayerLayout><Profile/></PlayerLayout>}/>
       </Routes>
     </>
   )
