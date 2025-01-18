@@ -7,10 +7,6 @@ export const validateEmail = (email: string): boolean | null => {
   };
   
 
-
-
-export default validateEmail
-
 // Examples
 // console.log(validateEmail("test@example.com")); // true
 // console.log(validateEmail("user.name+tag@sub.domain.org")); // true

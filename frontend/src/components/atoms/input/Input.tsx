@@ -46,7 +46,7 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
                     onBlur={checkOnBlur}
                 />
                 
-                <p className="mt-2 text-red-600 text-xs">
+                <p className=" text-red-600 text-xs">
                     {!isValid ? `${name} is invalid` : ""}
                 </p>
             </>

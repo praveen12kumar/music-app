@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import GradientWrapper from "../../molecules/gradientWrapper/GradientWrapper"
 import LogoImage from "../../atoms/logo/LogoImage";
 import Input from "../../atoms/input/Input";
+import { Link } from "react-router-dom";
 //import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import Button from "../../atoms/button/Button";
 import { validatePassword } from "../../../helpers/validatePassword";
@@ -56,7 +57,7 @@ const Login = () => {
                     
                     <div className="w-full flex flex-col gap-2 items-center justify-center">
                         <LogoImage width={40} height={40} />
-                        <p className="text-3xl font-bold text-white font-poppins mr-10 ">Log in to Spotify</p>
+                        <p className="text-4xl font-bold text-white font-poppins mr-10 ">Log in to Spotify</p>
                     </div>
 
                     <div className="w-full h-[1px] bg-[#333333]"></div>
@@ -105,9 +106,8 @@ const Login = () => {
 
                     <div className="w-full flex items-center justify-center gap-2">
                         <p className="text-md font-medium text-gray-400">Don't have an account?</p>
-                        <p className="text-white  cursor-pointer underline underline-offset-1 transition hover:text-green-500">Sign up for free</p>
+                        <Link to="/signup" className="text-white  cursor-pointer underline underline-offset-1 transition hover:text-green-500">Sign up for free</Link>
                     </div>
-
 
                 </form>
             </div>
