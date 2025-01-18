@@ -1,10 +1,10 @@
 import { useState, useRef } from "react";
-import GradientWrapper from "../../molecules/gradientWrapper/GradientWrapper"
-import LogoImage from "../../atoms/logo/LogoImage";
-import Input from "../../atoms/input/Input";
+import GradientWrapper from "../../../components/molecules/gradientWrapper/GradientWrapper";
+import LogoImage from "../../../components/atoms/logo/LogoImage";
+import Input from "../../../components/atoms/input/Input";
 import { Link } from "react-router-dom";
 //import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
-import Button from "../../atoms/button/Button";
+import Button from "../../../components/atoms/button/Button";
 import { validatePassword } from "../../../helpers/validatePassword";
 import { validateEmail } from "../../../helpers/validateEmail";
 

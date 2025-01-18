@@ -4,8 +4,8 @@ import PlayerLayout from './layouts/PlayerLayout'
 import {Routes, Route} from "react-router-dom";
 import Home from './pages/home/Home';
 import Search from './pages/search/Search';
-import Login from './components/organisms/login/Login';
-import Signup from './components/organisms/signup/Signup';
+import Login from './pages/auth/login/Login'
+import Signup from './pages/auth/signup/Signup';
 import Profile from './pages/profile/Profile';
 
 function App() {

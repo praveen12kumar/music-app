@@ -1,21 +1,21 @@
 import { useState, useRef } from "react"
 import { Link } from "react-router-dom";
-import GradientWrapper from "../../molecules/gradientWrapper/GradientWrapper";
-import Button from "../../atoms/button/Button";
-import Input from "../../atoms/input/Input";
-import LogoImage from "../../atoms/logo/LogoImage";
+import GradientWrapper from "../../../components/molecules/gradientWrapper/GradientWrapper";
+import Button from "../../../components/atoms/button/Button";
+import Input from "../../../components/atoms/input/Input";
+import LogoImage from "../../../components/atoms/logo/LogoImage";
 import { validateEmail } from "../../../helpers/validateEmail";
 import { validatePassword } from "../../../helpers/validatePassword";
 import { validateUsername } from "../../../helpers/validateUsername";
-
-
+import { signUp } from "../../../features/auth-feature";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
 interface CustomInput extends HTMLInputElement {
   setInValid: () => void;
 }
 
 const Signup = () => {
-
+  const dispatch = useAppDispatch();
   
   const usernameRef = useRef<CustomInput | null>(null);
   const emailRef = useRef<CustomInput | null>(null);
@@ -56,8 +56,10 @@ const Signup = () => {
           event.preventDefault();
           handleValidateUsername();
           handleValidateEmail();
-          handleValidatePassword();     
-          console.log(signupValues);   
+          handleValidatePassword(); 
+          console.log({signupValues});    
+          const {username, email, password} = signupValues;
+          dispatch(signUp({username, email, password}));  
       }
   
   return (
