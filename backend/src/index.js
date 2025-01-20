@@ -7,6 +7,7 @@ import morgan from 'morgan';
 import apiRoutes from "./routes/index.js";
 import passport from 'passport';
 import {passportAuth} from "./config/jwt-middleware.js"
+import cookieParser from 'cookie-parser';
 
 
 const app = express();
@@ -27,9 +28,11 @@ app.use(morgan(morganFormat, {
     } 
 }));
 
-app.use(cors());
+app.use(cors({credentials:true}));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
+app.use(cookieParser());
+
 app.use('/api', apiRoutes);
 app.use(passport.initialize());
 passportAuth(passport);

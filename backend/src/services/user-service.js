@@ -7,8 +7,18 @@ class UserService{
     }
     
     async signup(data) {
-        const user = await this.userRespository.create(data);
-        return user;
+        // check if user already exist
+        const user = await this.userRespository.findBy({email: data.email});
+        if(user){
+            throw{
+                message: "user already exist",
+                success: false,
+            }
+        }
+        const newUser = await this.userRespository.create(data);
+        const token = newUser.generateJWTToken();
+        
+        return {newUser, token};
     }
 
     async getUserByEmail(email){
