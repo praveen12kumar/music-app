@@ -10,6 +10,17 @@ class UserRepository extends CrudRepository {
     async findBy(data){
         try {
             const response = await User.findOne(data);
+            console.log("response", response);
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+
+    async findByEmail(data){
+        try {
+            const response = await User.findOne({email:data});
             return response;
         } catch (error) {
             throw error;

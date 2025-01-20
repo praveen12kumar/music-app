@@ -59,9 +59,17 @@ export const signup = async (req, res) => {
 //-------------------- Login Controller --------------------
 
 export const login = async(req, res)=>{
-    const {email, password} = req.body;
+    const {email, password} = req.body;  
     try{  
           const token = await userService.signin({email, password});
+          res.cookie("token", token, 
+            {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production" || false,
+                sameSite: "strict",
+                maxAge: 1000 * 60 * 60 * 24 * 7
+            }            
+        );
           return res.status(200).json({
               success: true,
               data: token,

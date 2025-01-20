@@ -49,21 +49,9 @@ class UserService{
 
 
 
-
-
-
-    async getUserByEmail(email){
-       try {
-        const user = await this.userRespository.findBy({email})
-        return user
-       } catch (error) {
-        throw error
-       }
-    }
-
     async signin(data){
         try {
-            const user = await this.getUserByEmail(data.email); 
+            const user = await this.userRespository.findByEmail(data.email); 
             if(!user){
                 throw{
                     message: "no user found",
@@ -76,6 +64,7 @@ class UserService{
                     message: "invalid password",
                 }
             }
+            
             //generate token
             const token = user.generateJWTToken();
             return token;    
