@@ -119,7 +119,24 @@ export const verifyEmail = async(req, res)=>{
 //-------------logout Controller-----------------
 
 
-
+export const logout = async (req, res)=>{
+    try {
+        res.clearCookie("token");
+        return res.status(200).json({
+            success:true,
+            data:{},
+            message:"User logout successfully",
+            err:{}
+        })
+    } catch (error) {
+        res.status(500).json({
+            success:false,
+            data:{},
+            message:"Something went wrong",
+            err: error
+        })
+    }
+}
 
 
 
