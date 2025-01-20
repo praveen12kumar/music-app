@@ -15,6 +15,19 @@ class UserRepository extends CrudRepository {
             throw error;
         }
     }
+
+
+    async findUserByToken(code){
+        try {
+            const response = await User.findOne({
+                verificationToken:code, 
+                verificationTokenExpire: {$gt: Date.now()}});
+            return response;
+        } catch (error) {
+            throw error
+        }
+    }
+
 }
 
 export default UserRepository;

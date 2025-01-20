@@ -1,4 +1,7 @@
 import {UserRepository} from "../repository/index.js";
+import { sendVerificationEmail, sendWelcomeEmail } from "../mailtrap/emails.js";
+
+
 
 class UserService{
 
@@ -17,9 +20,37 @@ class UserService{
         }
         const newUser = await this.userRespository.create(data);
         const token = newUser.generateJWTToken();
+
+        sendVerificationEmail(newUser.email, newUser.verificationToken);
         
         return {newUser, token};
     }
+
+    // ------------verify user Email--------------
+
+    async verifyUserEmail(code){
+        
+        const user = await this.userRespository.findUserByToken(code)
+        if(!user){
+            throw{
+                message: "invalid verification code",
+                success: false,
+            }
+        }
+
+        user.isVerified = true;
+        user.verificationToken = undefined;
+        user.verificationTokenExpire = undefined;
+        await user.save();
+        console.log("user", user);
+        await sendWelcomeEmail(user.email, user.username);
+        return user
+    }
+
+
+
+
+
 
     async getUserByEmail(email){
        try {

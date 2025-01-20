@@ -1,4 +1,5 @@
 
+import e from "express";
 import {UserService} from "../services/index.js";
 
 const userService = new UserService();
@@ -76,6 +77,52 @@ export const login = async(req, res)=>{
         })   
     }
 }
+
+
+
+//----------------- Verify Email Controller ---------------------
+
+export const verifyEmail = async(req, res)=>{
+    // 1 2 3 4 5 6  six digits code
+    const {code} = req.body;
+    try{
+        const response = await userService.verifyUserEmail(code);
+        return res.status(200).json({
+            success: true,
+            data: response,
+            message: "User verified successfully",
+            err:{}
+        })
+    }
+    catch(error){
+        if(error.message === "invalid verification code"){
+            return res.status(400).json({
+                success: false,
+                data: {},
+                message: "invalid verification code",
+                err: error.message
+            })
+        }
+        else{
+        return res.status(500).json({
+            success: false,
+            data: {},
+            message: "Something went wrong",
+            err: error
+           })
+        }
+    }
+} 
+
+
+
+//-------------logout Controller-----------------
+
+
+
+
+
+
 
 
 export const findUserById = async(req, res)=>{

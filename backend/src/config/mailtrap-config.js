@@ -12,21 +12,11 @@ if (!TOKEN) {
   process.exit(1); // Exit the process if token is missing
 }
 
-const client = new MailtrapClient({ token: TOKEN });
+export const mailtrapClient = new MailtrapClient({ token: TOKEN });
 
-const sender = {
+export const sender = {
   email: "hello@demomailtrap.com",
   name: "Mailtrap",
 };
-const recipients = [{ email: "praveenshakya441@gmail.com" }];
 
-client
-  .send({
-    from: sender,
-    to: recipients,
-    subject: "Verify your Account",
-    html: "Congrats for sending test email with Mailtrap!",
-    category: "Integration Test",
-  })
-  .then(console.log)
-  .catch(console.error);
+
