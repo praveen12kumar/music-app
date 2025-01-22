@@ -12,9 +12,10 @@ class UserService{
     async signup(data) {
         // check if user already exist
         const user = await this.userRespository.findBy({email: data.email});
+
         if(user){
             throw{
-                message: "user already exist",
+                message: "user already exists",
                 success: false,
             }
         }

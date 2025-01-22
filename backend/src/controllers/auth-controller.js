@@ -35,8 +35,9 @@ export const signup = async (req, res) => {
             message: "User created successfully",
             err:{}
         })
-    } catch (error) {
-        if(error.message === "User already exists") {
+    } catch (error) {  
+      
+        if(error.message == "user already exists") {
             return res.status(409).json({
                 success: false,
                 data: {},

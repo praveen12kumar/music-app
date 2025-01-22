@@ -1,5 +1,5 @@
 import { useState, useRef } from "react"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import GradientWrapper from "../../../components/molecules/gradientWrapper/GradientWrapper";
 import Button from "../../../components/atoms/button/Button";
 import Input from "../../../components/atoms/input/Input";
@@ -7,8 +7,9 @@ import LogoImage from "../../../components/atoms/logo/LogoImage";
 import { validateEmail } from "../../../helpers/validateEmail";
 import { validatePassword } from "../../../helpers/validatePassword";
 import { validateUsername } from "../../../helpers/validateUsername";
-import { signUp } from "../../../features/auth-feature";
+import { register } from "../../../redux/slices/auth-slice";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
+
 
 interface CustomInput extends HTMLInputElement {
   setInValid: () => void;
@@ -16,6 +17,7 @@ interface CustomInput extends HTMLInputElement {
 
 const Signup = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   
   const usernameRef = useRef<CustomInput | null>(null);
   const emailRef = useRef<CustomInput | null>(null);
@@ -52,22 +54,33 @@ const Signup = () => {
           })
       }
   
-      function handleSubmit(event:any){
-          event.preventDefault();
-          handleValidateUsername();
-          handleValidateEmail();
-          handleValidatePassword(); 
-          console.log({signupValues});    
-          const {username, email, password} = signupValues;
-          dispatch(signUp({username, email, password}));  
-      }
+      async function createNewAccount(event: any) {
+        event.preventDefault();
+    
+        // Input validation
+        handleValidateUsername();
+        handleValidateEmail();
+        handleValidatePassword();
+    
+        try {
+            // Dispatch the register action and wait for the result
+            const result: any = await dispatch(register(signupValues));
+            // Handle success or failure
+            if (result?.payload?.success) {
+                navigate('/login');
+            }
+        } catch (error) {
+            console.error('Error during signup:', error);
+        }
+    }
+    
   
   return (
     <>
       <GradientWrapper graditientStyles="custom-gradient-slate">
         <div className="w-full h-dvh flex items-center justify-center">
             <div className={`w-5/12 h-[95%] rounded-lg  bg-[#181818] flex justify-center `}>
-                <form className="w-[70%] h-full flex flex-col gap-3 items-center py-6" onSubmit={handleSubmit} noValidate>
+                <form className="w-[70%] h-full flex flex-col gap-3 items-center py-6" onSubmit={createNewAccount} noValidate>
                     <div className="w-full flex flex-col gap-2 items-center justify-center">
                         <LogoImage width={40} height={40} />
                         <p className="text-4xl font-bold text-white font-poppins mr-10 ">Sign up to</p>
@@ -120,7 +133,7 @@ const Signup = () => {
                     </div>
 
                     <div className="w-3/4 flex items-center justify-center mt-3">
-                        <Button type="submit" text="Sign up" classs="w-full bg-green-500 text-md text-zinc-900 font-bold rounded-3xl py-3 px-3 hover:scale-105 hover:bg-[#2BE457] transition duration-150 will-change-transform" />
+                        <Button type="submit" text="Sign up" className="w-full bg-green-500 text-md text-zinc-900 font-bold rounded-3xl py-3 px-3 hover:scale-105 hover:bg-[#2BE457] transition duration-150 will-change-transform" />
                     </div>
 
                     <div className="w-full h-[1px] bg-[#333333] mt-2"></div>
