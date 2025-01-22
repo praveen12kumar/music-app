@@ -39,6 +39,16 @@ class UserRepository extends CrudRepository {
         }
     }
 
+    async findByResetPassword(token){
+        try {
+            const response = await User.findOne({
+                resetPasswordToken:token, 
+                resetPasswordExpire: {$gt: Date.now()}});
+            return response;
+        } catch (error) {
+            throw error
+        }
+    }
 }
 
 export default UserRepository;

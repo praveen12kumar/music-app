@@ -1,14 +1,14 @@
 interface ButtonProps {
     type:"submit" | "reset" | "button",
     text:string,
-    classs:string,
+    className:string,
     onClick?:()=>void
 }
-const Button :React.FC<ButtonProps> = ({type, text, classs, onClick}) => {
+const Button :React.FC<ButtonProps> = ({type, text, className, onClick}) => {
   return (
     <button 
         type={type}
-        className={`${classs}`}
+        className={`${className}`}
         onClick={onClick}
         >
         {text}

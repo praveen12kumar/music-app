@@ -1,6 +1,6 @@
 
-import e from "express";
 import {UserService} from "../services/index.js";
+
 
 const userService = new UserService();
 
@@ -146,6 +146,70 @@ export const logout = async (req, res)=>{
     }
 }
 
+
+
+//--------------forgot -password Controller------------------
+
+export const forgotPassword = async(req, res)=>{
+    const {email} = req.body;
+    try{
+        const response = await userService.forgotUserPassword(email);
+        return res.status(200).json({
+            success: true,
+            data:{},
+            message: "Password reset link sent to your email",
+            err:{}
+        })
+    }
+    catch(error){
+        if(error.message === "User not found"){
+            return res.status(404).json({
+                success: false,
+                data: {},
+                message: "User not found",
+                err: error.message
+            })
+        }
+        else{
+        return res.status(500).json({
+            success: false,
+            data: {},
+            message: "Something went wrong",
+            err: error
+            })
+        }
+    }
+}
+
+
+//----------------- Reset-password Controller ------------------
+
+export const resetPassword = async(req, res)=>{
+    const {password} = req.body;
+    const {token} = req.params;
+
+    console.log("token", token);
+    console.log("password", password);
+        try{
+        const response = await userService.resetUserPassword(token, password);
+        return res.status(200).json({
+            success: true,
+            data: response,
+            message: "Password reset successfully",
+            err:{}
+        })
+    }
+    catch(error){
+        if(error.message === "User not found"){
+            return res.status(404).json({
+                success: false,
+                data: {},
+                message: "User not found",
+                err: error.message
+            })
+        }
+    }
+}
 
 
 

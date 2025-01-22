@@ -3,6 +3,8 @@ import {signup,
         login, 
         logout,
         verifyEmail,
+        forgotPassword,
+        resetPassword,
         findUserById} from "../../controllers/auth-controller.js";
 
 import { songCreate, 
@@ -30,7 +32,10 @@ router.post('/signup', signup);
 router.post('/login', login);
 router.post('/verify/email', verifyEmail);
 router.post('/logout',  authenticate, logout);
+router.post('/auth/forgot-password', forgotPassword);
+router.post('/reset-password/:token',  resetPassword);
 router.get('/user/:id', authenticate, findUserById);
+
 
 // -------song-----------
 

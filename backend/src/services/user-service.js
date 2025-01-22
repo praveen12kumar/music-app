@@ -1,7 +1,7 @@
 import {UserRepository} from "../repository/index.js";
-import { sendVerificationEmail, sendWelcomeEmail } from "../mailtrap/emails.js";
-
-
+import { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail, sendResetSuccessfulEmail } from "../mailtrap/emails.js";
+import crypto from "crypto";
+import brcypt from "bcrypt";
 
 class UserService{
 
@@ -47,7 +47,7 @@ class UserService{
         return user
     }
 
-
+// ------------signin user------------
 
     async signin(data){
         try {
@@ -72,6 +72,67 @@ class UserService{
             throw error
         }
     }
+
+// -------------forgot -password Service--------------
+
+  async forgotUserPassword(email){
+        try {
+            const user = await this.userRespository.findByEmail(email);
+            if(!user){
+                throw{
+                    message: "User not found",
+                    success: false,
+                }
+            }
+
+            //generate Reset token
+
+            const resetToken = crypto.randomBytes(32).toString("hex");
+            const resetTokenExpire = Date.now() + 10 * 60 * 1000; // 1 hr
+
+            user.resetPasswordToken = resetToken;
+            user.resetPasswordExpire = resetTokenExpire;
+            await user.save();
+
+            await sendPasswordResetEmail(user.email, `${process.env.CLIENT_URL}/reset-password/${resetToken}`);
+            return user;
+
+        } catch (error) {
+            throw error
+        }
+    }
+
+
+
+// ----------resetUserPassword----------------
+
+    async resetUserPassword(token, password){
+        try {
+            const user = await this.userRespository.findByResetPassword(token);
+            if(!user){
+                throw{
+                    message: "Invalid or Expired token",
+                    success: false,
+                }
+            }
+            console.log("user", user);
+            
+            const hashedPassword = await brcypt.hash(password, 10);
+            user.password = hashedPassword;
+            user.resetPasswordToken = undefined;
+            user.resetPasswordExpire = undefined;
+            await user.save();
+            console.log("user", user);
+            await sendResetSuccessfulEmail(user.email);
+
+        } catch (error) {
+            throw error
+        }
+    }
+
+
+
+     
 
     async getUserById(id){
         try {
