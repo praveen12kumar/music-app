@@ -47,14 +47,14 @@ const Signup = () => {
       }
   
   
-      function handleInput(e: any) {
+      function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
           setSignupValues({
               ...signupValues,
               [e.target.name]: e.target.value
           })
       }
   
-      async function createNewAccount(event: any) {
+      async function createNewAccount(event:React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
     
         // Input validation

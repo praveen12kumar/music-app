@@ -2,17 +2,22 @@ import { useState, useRef } from "react";
 import GradientWrapper from "../../../components/molecules/gradientWrapper/GradientWrapper";
 import LogoImage from "../../../components/atoms/logo/LogoImage";
 import Input from "../../../components/atoms/input/Input";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 //import { FaRegEye, FaRegEyeSlash } from "react-icons/fa";
 import Button from "../../../components/atoms/button/Button";
 import { validatePassword } from "../../../helpers/validatePassword";
 import { validateEmail } from "../../../helpers/validateEmail";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import {login} from "../../../redux/slices/auth-slice";
 
 interface CustomInput extends HTMLInputElement {
     setInValid: () => void;
 }
 
 const Login = () => {
+    const dispatch = useAppDispatch();
+    const navigate = useNavigate();
+
     const emailRef = useRef<CustomInput | null>(null); // Specify the type
     const passwordRef = useRef<CustomInput | null>(null);
     
@@ -35,17 +40,30 @@ const Login = () => {
     }
 
 
-    function handleInput(e: any) {
+    function handleInput(e: React.ChangeEvent<HTMLInputElement>) {
         setFormValues({
             ...formValues,
             [e.target.name]: e.target.value
         })
     }
 
-    function handleSubmit(event:any){
+    async function handleLogin(event:React.FormEvent<HTMLFormElement>) {
         event.preventDefault();
+
         handleValidateEmail();
-        handleValidatePassword();        
+        handleValidatePassword();
+        
+        try {
+                    // Dispatch the register action and wait for the result
+                    const result: any = await dispatch(login(formValues));
+                    console.log("result", result);
+                    // Handle success or failure
+                    if (result?.payload?.success) {
+                        navigate('/');
+                    }
+                } catch (error) {
+                    console.error('Error during signup:', error);
+                }
     }
 
   return (
@@ -53,7 +71,7 @@ const Login = () => {
     <GradientWrapper graditientStyles="custom-gradient-slate">
         <div className="w-full h-dvh flex items-center justify-center">
             <div className={`w-5/12 h-[95%] rounded-lg  bg-[#181818] flex justify-center `}>
-                <form className="w-[70%] h-full flex flex-col gap-6 items-center py-6" onSubmit={handleSubmit} noValidate>
+                <form className="w-[70%] h-full flex flex-col gap-6 items-center py-6" onSubmit={handleLogin} noValidate>
                     
                     <div className="w-full flex flex-col gap-2 items-center justify-center">
                         <LogoImage width={40} height={40} />
@@ -99,7 +117,7 @@ const Login = () => {
                     </div>
 
                     <div className="w-3/4 flex items-center justify-center mt-5">
-                        <Button type="submit" text="Log in" classs="w-full bg-green-500 text-md text-zinc-900 font-bold rounded-3xl py-3 px-3 hover:scale-105 hover:bg-[#2BE457] transition duration-150 will-change-transform" />
+                        <Button type="submit" text="Log in" className="w-full bg-green-500 text-md text-zinc-900 font-bold rounded-3xl py-3 px-3 hover:scale-105 hover:bg-[#2BE457] transition duration-150 will-change-transform" />
                     </div>
 
                     <div className="w-full h-[1px] bg-[#333333]"></div>
