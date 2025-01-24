@@ -43,12 +43,11 @@ class UserService{
         user.verificationToken = undefined;
         user.verificationTokenExpire = undefined;
         await user.save();
-        console.log("user", user);
         await sendWelcomeEmail(user.email, user.username);
         return user
     }
 
-// ------------signin user------------
+// ------------login user------------
 
     async signin(data){
         try {
@@ -63,12 +62,13 @@ class UserService{
             if(!user.comparepassword(data.password)){
                 throw{
                     message: "invalid password",
+                    success: false,
                 }
             }
             
             //generate token
             const token = user.generateJWTToken();
-            return token;    
+            return {user, token};    
         } catch (error) {
             throw error
         }

@@ -67,7 +67,7 @@ const Signup = () => {
             const result: any = await dispatch(register(signupValues));
             // Handle success or failure
             if (result?.payload?.success) {
-                navigate('/login');
+                navigate('/verify-email');
             }
         } catch (error) {
             console.error('Error during signup:', error);

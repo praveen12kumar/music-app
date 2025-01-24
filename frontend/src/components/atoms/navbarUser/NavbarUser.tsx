@@ -4,10 +4,12 @@ import Dropdown from "../dropdown/Dropdown";
 import useComponentVisible from "../../../hooks/useComponentVisible";
 import Button from "../button/Button";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store/store";
 
 const NavbarUser = () => {
 
-    const isLoggedIn = false;
+    const {isLoggedIn} = useSelector((state:RootState) => state?.auth);
     const navigate = useNavigate();
 
     const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible();

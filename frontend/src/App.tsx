@@ -7,7 +7,7 @@ import Search from './pages/search/Search';
 import Login from './pages/auth/login/Login'
 import Signup from './pages/auth/signup/Signup';
 import Profile from './pages/profile/Profile';
-
+import EmailVerification from './pages/auth/emailVerification/EmailVerification';
 function App() {
   
 
@@ -17,6 +17,7 @@ function App() {
         <Route path='/' element={<PlayerLayout><Home/></PlayerLayout>}/>
         <Route path="/login" element={<Login/>}/>
         <Route path="/signup" element={<Signup/>}/>
+        <Route path='/verify-email' element={<EmailVerification/>}/>
         <Route path='/search' element={<PlayerLayout><Search/></PlayerLayout>}/>
         <Route path='/profile' element={<PlayerLayout><Profile/></PlayerLayout>}/>
       </Routes>

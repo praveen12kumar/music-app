@@ -21,6 +21,7 @@ export const signup = async (req, res) => {
 
     try {
         const response = await userService.signup({username, email, password}); 
+        
         res.cookie("token", response.token, 
             {
                 httpOnly: true,
@@ -61,9 +62,21 @@ export const signup = async (req, res) => {
 
 export const login = async(req, res)=>{
     const {email, password} = req.body;  
+
+    // verify email
+    if(!email || !password){
+        return res.status(400).json({
+            success: false,
+            data: {},
+            message: "All fields are required",
+            err:{}
+        })
+    }
+
     try{  
-          const token = await userService.signin({email, password});
-          res.cookie("token", token, 
+          const response = await userService.signin({email, password});
+          
+          res.cookie("token", response.token, 
             {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production" || false,
@@ -73,17 +86,35 @@ export const login = async(req, res)=>{
         );
           return res.status(200).json({
               success: true,
-              data: token,
+              data: response.user,
               message: "User logged in successfully",
               err:{}
           })
         } catch (error) {
+        if(error.message === "no user found"){
+            return res.status(404).json({
+                success: false,
+                data: {},
+                message: "User not found",
+                err: error.message
+            })
+        }
+        if(error.message === "invalid password"){
+            return res.status(400).json({
+                success: false,
+                data: {},
+                message: "invalid password",
+                err: error.message
+            })
+        }
+        else{
         return res.status(500).json({
             success:false,
             data:{},
             message:"Something went wrong",
             err: error
-        })   
+            }) 
+        }  
     }
 }
 
