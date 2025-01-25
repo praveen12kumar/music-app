@@ -7,6 +7,8 @@ import {signup,
         resetPassword,
         findUserById} from "../../controllers/auth-controller.js";
 
+import { getUserDetails } from '../../controllers/user-controller.js';
+
 import { songCreate, 
         songByArtist, 
         allSongsOfArtist,
@@ -26,7 +28,7 @@ import {authenticate} from "../../middlewares/authenticate.js";
 
 const router = express.Router();
 
-// -------user-----------
+// -------auth-----------
 
 router.post('/signup', signup);
 router.post('/login', login);
@@ -34,6 +36,11 @@ router.post('/verify/email', verifyEmail);
 router.post('/logout', logout);
 router.post('/auth/forgot-password', forgotPassword);
 router.post('/reset-password/:token',  resetPassword);
+
+
+//--------------user----------------------
+
+router.get("/user", authenticate, getUserDetails);
 router.get('/user/:id', authenticate, findUserById);
 
 

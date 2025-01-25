@@ -7,6 +7,6 @@
     @apply bg-gradient-to-b from-zinc-950 via-zinc-900 to-zinc-800;
   }
 
-  .custom-gradient-slate{
-    @apply bg-gradient-to-b from-[#2A2A2A] via-[#1C1C1C] to-[#0C0C0C];
+  .custom-gradient-green {
+    @apply bg-gradient-to-b from-[#4C6A62]  via-[#384F4A] to-[#263733];
   }
