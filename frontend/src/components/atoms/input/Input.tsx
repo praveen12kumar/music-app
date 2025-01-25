@@ -2,7 +2,7 @@ import React, { useEffect, useImperativeHandle, useRef, useState } from "react";
 
 interface InputProps {
     type: string;
-    placeholder: string;
+    placeholder?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     value: string;
     name?: string;
