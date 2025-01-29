@@ -8,7 +8,6 @@ const userSchema = new Schema({
         type: String,
         required: [true, "can't be blank"],
         trim:true,
-        unique: true
     },
     email: {
         type: String,

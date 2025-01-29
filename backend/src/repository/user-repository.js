@@ -8,9 +8,21 @@ class UserRepository extends CrudRepository {
 
     
     async findBy(data){
+        
         try {
             const response = await User.findOne(data);
-            //console.log("response", response);
+            
+            return response;
+        } catch (error) {
+           // console.log("error", error);
+            
+            throw error;
+        }
+    }
+
+    async findById(id){
+        try {
+            const response = await User.findById(id);
             return response;
         } catch (error) {
             throw error;
@@ -47,6 +59,25 @@ class UserRepository extends CrudRepository {
             return response;
         } catch (error) {
             throw error
+        }
+    }
+
+    async findAndUpdate(id, data){
+        //console.log("id", id);
+        try {
+            const response = await User.findByIdAndUpdate(id,{
+                $set:{
+                    avatar:data.avatar,
+                    username: data.username
+                }
+            },{
+                new:true
+            })
+            //console.log("response", response);
+            
+            return response;
+        } catch (error) {
+            throw error;
         }
     }
 }

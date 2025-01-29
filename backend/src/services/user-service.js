@@ -2,6 +2,7 @@ import {UserRepository} from "../repository/index.js";
 import { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail, sendResetSuccessfulEmail } from "../mailtrap/emails.js";
 import crypto from "crypto";
 import brcypt from "bcrypt";
+import uploadOnCloudinary from "../config/cloudinary-config.js";
 
 class UserService{
 
@@ -131,18 +132,63 @@ class UserService{
         }
     }
 
+    //-------------- Update profile-----------------
 
+    async updateUser(id, username,localImagePath){
+        try {
+            const user = await this.userRespository.findById(id);
+            if(!user){
+                throw{
+                    message: "User not found",
+                    success: false,
+                }
+            }
 
-     
+            if(!localImagePath){
+                throw{
+                    message:"Avatar is required",
+                    success: false,
+                }
+            }
+
+            // update avatar to cloudinary
+            const result = await uploadOnCloudinary(localImagePath);
+            
+
+            if(!result){
+                throw{
+                    message:"Avatar upload failed",
+                    success: false,
+                }
+            }
+            const newUser = await this.userRespository.findAndUpdate(id,{avatar: result?.secure_url, username});
+            // user.avatar = result?.secure_url;
+            // user.username = username;
+            // await user.save();
+            return newUser;
+        } catch (error) {
+            console.log("error", error);
+            throw error
+        }
+    }
 
     async getUserById(id){
+        
         try {
             const user = await this.userRespository.get(id);
-            return user
+            //console.log("user", user)
+            if(!user){
+                throw{
+                    message: "User not found",
+                    success: false,
+                }
+            }
+            return user;
         } catch (error) {
             throw error
         }
     }
+
 }
 
 

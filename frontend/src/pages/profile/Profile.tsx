@@ -25,7 +25,7 @@ const Profile = () => {
 
   useEffect(()=>{
     dispatch(getUserDetails())
-  },[dispatch])
+  },[])                                                                                                                                                                                                
 
   return (
     <GradientWrapper graditientStyles="custom-gradient-black rounded-lg">
@@ -41,7 +41,7 @@ const Profile = () => {
                         onClick={open}
                         className="w-full h-full bg-black opacity-80 flex flex-col items-center justify-center absolute top-1/2 -translate-y-1/2  rounded-full cursor-pointer">
                         <FiEdit2 className="size-10 text-white cursor-pointer"/>
-                        <p className="text-sm font-bold text-white">Choose photo</p>
+                        <p className="text-sm font-bold text-white">Edit profile</p>
                     </div>
                   }
                 

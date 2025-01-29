@@ -5,9 +5,12 @@ import {signup,
         verifyEmail,
         forgotPassword,
         resetPassword,
-        findUserById} from "../../controllers/auth-controller.js";
+} from "../../controllers/auth-controller.js";
 
-import { getUserDetails } from '../../controllers/user-controller.js';
+import { getUserDetails, 
+        findUserById,
+        updateUserProfile
+} from '../../controllers/user-controller.js';
 
 import { songCreate, 
         songByArtist, 
@@ -23,6 +26,8 @@ import { createPlaylist,
  } from '../../controllers/playlist-controller.js';
 
 import {authenticate} from "../../middlewares/authenticate.js";
+import {upload} from "../../middlewares/multer-middlewarer.js";
+import multer from 'multer';
 
 
 
@@ -41,8 +46,29 @@ router.post('/reset-password/:token',  resetPassword);
 //--------------user----------------------
 
 router.get("/user", authenticate, getUserDetails);
-router.get('/user/:id', authenticate, findUserById);
+router.put('/user/update-profile',authenticate,(req, res, next)=>{
+        upload.single("avatar")(req, res, (err)=>{
+                if(err){
+                        if(err instanceof multer.MulterError){
+                                if(err.code === 'LIMIT_FILE_SIZE'){
+                                        return res.status(413).json({
+                                                message: "File too large",
+                                                success:false
+                                        })
+                                }
+                                else{
+                                        return res.status(400).json({
+                                                message: err.message,
+                                                success:false
+                                        })
+                                }
+                        }
+                }
+                next();
+        })
 
+}, updateUserProfile);
+router.get('/user/:id', authenticate, findUserById);
 
 // -------song-----------
 

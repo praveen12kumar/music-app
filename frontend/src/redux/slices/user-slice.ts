@@ -33,15 +33,50 @@ export const getUserDetails = createAsyncThunk("user/getUserDetails", async (_, 
 )
 
 
+export const updateUserProfile = createAsyncThunk("user/updateUserProfile", async (data: any, { rejectWithValue }) => {
+ 
+   const formdata = new FormData();
+   formdata.append("username", data.username);
+   formdata.append("avatar", data.avatar);
+   
+    try {
+      const response = axiosInstance.put("/user/update-profile", formdata, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      await toast.promise(response, {
+        loading: "Wait! Updating user profile...",
+        success: "User profile updated successfully",
+        error: "Something went wrong",
+      });
+      return (await response).data;
+
+    } catch (error:string | any) {
+      toast.error(error?.response?.data?.message || "An error occurred");
+      return rejectWithValue(error?.response?.data || { message: "Error" });
+    }
+  } 
+)
+
+
+
+
+
+
 
 const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getUserDetails.fulfilled, (state, action) => {
+    builder
+    .addCase(getUserDetails.fulfilled, (state, action) => {
       state.user = action?.payload?.data;
-    });
+    })
+    .addCase(updateUserProfile.fulfilled, (state, action) => {
+      //console.log("action", action);
+      state.user = action?.payload?.data;
+    })
   },
 });
 

@@ -6,10 +6,13 @@ import { useState } from "react";
 import Button from "../../atoms/button/Button";
 import toast from "react-hot-toast";
 import Input from "../../atoms/input/Input";
-
+import { updateUserProfile } from "../../../redux/slices/user-slice";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
 function UserModal({ close }: { close: () => void }) {
   const { user } = useSelector((state: RootState) => state.user);
+  const dispatch = useAppDispatch();
+
 
   const [edit, setEdit] = useState(false);
   const [previewImage, setPreviewImage] = useState<string>(user?.avatar || "");
@@ -45,7 +48,7 @@ function UserModal({ close }: { close: () => void }) {
     };
     fileReader.onerror = () => {
       console.error("Error reading the uploaded image.");
-      alert("Failed to read the image. Please try again.");
+      toast.error("Failed to read the image. Please try again.");
     };
   }
 
@@ -58,7 +61,10 @@ function UserModal({ close }: { close: () => void }) {
   }
 
   function handleUpdateUser(){
-    console.log(formValues);
+    console.log("formValues",formValues);
+    dispatch(updateUserProfile(formValues));
+    //dispatch(getUserDetails());
+    close();
   }
 
   return (

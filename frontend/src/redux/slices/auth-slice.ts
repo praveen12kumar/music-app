@@ -111,6 +111,7 @@ export const authSlice = createSlice({
     builder
       .addCase(register.fulfilled, (state, action) => {
         state.user = action?.payload?.data;
+        state.isLoggedIn = true;
       })
 
       .addCase(login.fulfilled, (state, action) => {
