@@ -18,10 +18,6 @@ const Profile = () => {
   const {user} = useSelector((state: RootState) => state.user);
   
   const [showEdit, setShowEdit] = useState<boolean>(false)
- 
-
-  console.log(user);
-
 
   useEffect(()=>{
     dispatch(getUserDetails())

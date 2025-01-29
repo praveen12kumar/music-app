@@ -11,6 +11,7 @@ const NavbarUser = () => {
 
     const {isLoggedIn} = useSelector((state:RootState) => state?.auth);
     const navigate = useNavigate();
+    const {user} = useSelector((state:RootState) => state?.user);
 
     const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible();
   return (
@@ -29,7 +30,12 @@ const NavbarUser = () => {
         className="w-10 h-10 flex items-center justify-center rounded-full bg-zinc-700 hover:scale-105 transition duration-150 will-change-transform cursor-pointer"
       >
         <div className="w-8 h-8 flex items-center justify-center rounded-full bg-orange-800">
-          <p>P</p>
+          {
+            user?.avatar ? 
+            <img src={user?.avatar} className="w-full h-full rounded-full" alt="avatar" />
+            :
+            <p className="text-sm font-bold text-white">{user?.name?.charAt(0)}</p>
+          }
         </div>
       </div>
       :
