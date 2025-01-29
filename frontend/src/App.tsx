@@ -6,7 +6,7 @@ import Home from './pages/home/Home';
 import Search from './pages/search/Search';
 import Login from './pages/auth/login/Login'
 import Signup from './pages/auth/signup/Signup';
-import Profile from './pages/profile/Profile';
+import ProfileContainer from './components/organisms/profileContainer/ProfileContainer';
 import EmailVerification from './pages/auth/emailVerification/EmailVerification';
 function App() {
   
@@ -19,7 +19,7 @@ function App() {
         <Route path="/signup" element={<Signup/>}/>
         <Route path='/verify-email' element={<EmailVerification/>}/>
         <Route path='/search' element={<PlayerLayout><Search/></PlayerLayout>}/>
-        <Route path='/profile' element={<PlayerLayout><Profile/></PlayerLayout>}/>
+        <Route path='/profile' element={<PlayerLayout><ProfileContainer/></PlayerLayout>}/>
       </Routes>
     </>
   )

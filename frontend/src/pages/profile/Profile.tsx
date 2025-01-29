@@ -24,8 +24,8 @@ const Profile = () => {
   },[])                                                                                                                                                                                                
 
   return (
-    <GradientWrapper graditientStyles="custom-gradient-black rounded-lg">
-    <div className="w-full h-full overflow-auto rounded-lg  text-white flex flex-col items-center justify-center relative" >
+    <GradientWrapper graditientStyles="custom-gradient-black rounded-tl-lg rounded-tr-lg">
+    <div className="w-full h-full overflow-auto   text-white flex flex-col items-center justify-center relative" >
         <div className="w-full h-[40vh] p-4 flex items-center justify-items-start gap-4 custom-gradient-green">
             <div className="w-56 h-56 rounded-full relative"
               onMouseEnter={() => setShowEdit(true)}
@@ -56,7 +56,6 @@ const Profile = () => {
        }
         
     </div>
-
     </GradientWrapper>
   )
 }
