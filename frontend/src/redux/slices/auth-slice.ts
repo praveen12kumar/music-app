@@ -10,9 +10,8 @@ interface AuthState {
 }
 
 
-
 const initialState:AuthState = {
-  user: localStorage.getItem("user") || null,
+  user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")!) : null,
   isLoggedIn: localStorage.getItem('isLoggedIn') || false,
   role: localStorage.getItem('role') || "",
 };

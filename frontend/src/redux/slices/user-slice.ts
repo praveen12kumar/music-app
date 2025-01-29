@@ -3,15 +3,20 @@ import { axiosInstance } from "../../helpers/axiosInstance";
 import toast from "react-hot-toast";
 
 
-interface userState {
-  user: any;
+interface User {
+  username: string;
+  email: string;
+  avatar: string;
 }
 
+interface userState {
+  user: User | null;
+}
 
-
-const initialState:userState = {
-  user: localStorage.getItem("user") || null,
+const initialState: userState = {
+  user: localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")!) : null,
 };
+
 
 
 export const getUserDetails = createAsyncThunk("user/getUserDetails", async (_, { rejectWithValue }) => {

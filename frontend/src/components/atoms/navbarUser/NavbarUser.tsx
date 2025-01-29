@@ -34,7 +34,7 @@ const NavbarUser = () => {
             user?.avatar ? 
             <img src={user?.avatar} className="w-full h-full rounded-full" alt="avatar" />
             :
-            <p className="text-sm font-bold text-white">{user?.name?.charAt(0)}</p>
+            <p className="text-sm font-bold text-white">{user?.username?.charAt(0)}</p>
           }
         </div>
       </div>
