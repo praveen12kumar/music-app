@@ -1,22 +1,13 @@
-import { MailtrapClient } from "mailtrap";
-import { config } from "dotenv";
+import nodemailer from "nodemailer";
 
 // Load .env file (default location)
-config({ path: '../../.env' }); 
-
-
-const TOKEN = "c095e4e52c9e9013557c3673b8121f2e";
-
-if (!TOKEN) {
-  console.error("MAILTRAP_TOKEN is not defined in .env");
-  process.exit(1); // Exit the process if token is missing
-}
-
-export const mailtrapClient = new MailtrapClient({ token: TOKEN });
-
-export const sender = {
-  email: "hello@demomailtrap.com",
-  name: "Mailtrap",
-};
-
-
+// Looking to send emails in production? Check out our Email API/SMTP product!
+export const transporter = nodemailer.createTransport({
+  host: "smtp.gmail.com",
+  port: 587,
+  secure: false, // true for port 465, false for other ports
+  auth: {
+    user: "apitest2561@gmail.com",
+    pass: "btrw vjde rctq ptal",
+  },
+});

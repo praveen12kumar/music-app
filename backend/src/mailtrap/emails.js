@@ -1,14 +1,17 @@
-import { mailtrapClient, sender } from "../config/mailtrap-config.js";
-import { VERIFICATION_EMAIL_TEMPLATE, PASSWORD_RESET_REQUEST_TEMPLATE, PASSWORD_RESET_SUCCESS_TEMPLATE } from "./emailsTemplate.js";
+import { transporter } from "../config/mailtrap-config.js";
+import { VERIFICATION_EMAIL_TEMPLATE, PASSWORD_RESET_REQUEST_TEMPLATE, PASSWORD_RESET_SUCCESS_TEMPLATE, SEND_WELCOME_TEMPLATE } from "./emailsTemplate.js";
 
 
 
 export const sendVerificationEmail = async(email, verificationToken)=>{
-    const recipient = [{email}]
+    console.log("email", email);
+    console.log("verificationToken", verificationToken);
+
+    const recipient = email
 
     try {
-        const response = await mailtrapClient.send({
-            from:sender,
+        const response = await transporter.sendMail({
+            from:'"Music App" <apitest2561@gmail.com>',
             to:recipient,
             subject:"Please verify your account",
             html: VERIFICATION_EMAIL_TEMPLATE.replace("{verificationCode}", verificationToken),
@@ -23,18 +26,17 @@ export const sendVerificationEmail = async(email, verificationToken)=>{
 
 
 
+
 export const sendWelcomeEmail = async(email, username)=>{
-    const recipient = [{email}]
+    const recipient = email
     
     try{
-        const response = await mailtrapClient.send({
-            from:sender,
+        const response = await transporter.sendMail({
+            from:'"Music App" <apitest2561@gmail.com>',
             to:recipient,
-            template_uuid:"9a293ced-12ba-4bd4-8dbe-93cb6fd1a562",
-            template_variables:{
-                "name": username,
-                "company_info_name": "Spotify"
-            }
+            subject:"Welcome to Music App",
+            html:SEND_WELCOME_TEMPLATE,
+            category: "Welcome"
         })
 
         //console.log("Welcome Email sent  successfully", response);
@@ -47,11 +49,11 @@ export const sendWelcomeEmail = async(email, username)=>{
 
 
 export const sendPasswordResetEmail = async(email, resetUrl)=>{
-    console.log("resetUrl", resetUrl);
-    const recipient = [{email}]
+   
+    const recipient = email
     try{
-        const response = await mailtrapClient.send({
-            from:sender,
+        const response = await transporter.sendMail({
+            from:'"Music App" <apitest2561@gmail.com>',
             to:recipient,
             subject:"Password Reset Request",
             html: PASSWORD_RESET_REQUEST_TEMPLATE.replace("{resetURL}", resetUrl),
@@ -67,10 +69,10 @@ export const sendPasswordResetEmail = async(email, resetUrl)=>{
 
 
 export const sendResetSuccessfulEmail = async(email)=>{
-    const recipient = [{email}]
+    const recipient = email
     try{
-        const response = await mailtrapClient.send({
-            from:sender,
+        const response = await transporter.sendMail({
+            from:'"Music App" <apitest2561@gmail.com>',
             to:recipient,
             subject:"Password Reset Successful",
             html: PASSWORD_RESET_SUCCESS_TEMPLATE,
