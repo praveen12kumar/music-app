@@ -1,3 +1,4 @@
+import uploadOnCloudinary from "../config/cloudinary-config.js";
 import { SongRepository } from "../repository/index.js";
 import {UserRepository} from "../repository/index.js"
 class SongService{
@@ -8,8 +9,58 @@ class SongService{
     }
 
     async createSong(data){
-        const song = await this.songRepository.create(data);
-        return song
+        const {title, artists, year, duration, localSongPath, localThumbnailPath } = data;
+        try {
+            const song = await this.songRepository.songByTitle(data.title);
+        
+        if(song){
+            throw new Error("Song already exists");
+        }
+
+        if(!localSongPath || !localThumbnailPath){
+            throw{
+                message:"Song and thumbnail is required",
+                success: false,
+            }
+        }
+
+        const thumbnail = await uploadOnCloudinary(localThumbnailPath, "image");
+        //console.log("thumbnail Cloudinary", thumbnail);
+        if(!thumbnail){
+            throw{
+                message:"Thumbnail upload failed",
+                success: false,
+            }
+        }
+
+        const songUrl = await uploadOnCloudinary(localSongPath, "audio");
+        //console.log("Song Cloudinary", songUrl);
+
+        if(!songUrl){
+            throw{
+                message:"Song upload failed",
+                success: false,
+            }
+        }
+
+        const newSong = {
+            title,
+            artists,
+            year,
+            duration,
+            songUrl: songUrl?.secure_url,
+            thumbnail: thumbnail?.secure_url
+        }
+
+        const songResult = await this.songRepository.create(newSong);
+        //console.log(songResult)
+        return songResult;
+        } catch (error) {
+            throw{
+                message: error.message,
+                success: false
+            }
+        }
     }
 
 

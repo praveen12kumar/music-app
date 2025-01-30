@@ -152,9 +152,7 @@ class UserService{
             }
 
             // update avatar to cloudinary
-            const result = await uploadOnCloudinary(localImagePath);
-            
-
+            const result = await uploadOnCloudinary(localImagePath, "profile");
             if(!result){
                 throw{
                     message:"Avatar upload failed",

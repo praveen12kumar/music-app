@@ -3,11 +3,14 @@ import { SongService } from "../services/index.js";
 const songService = new SongService();  
 
 export const songCreate = async (req, res) => {
-    
-    const {title, artists, year, duration, songUrl, thumbnail} = req.body;
-    
+
+    const localThumbnailPath = req.files?.thumbnail[0]?.path;
+    const localSongPath = req.files?.song[0]?.path;
+
+    const {title, artists, year, duration} = req.body;
     try {
-        const song = await songService.createSong({title, artists, year, duration, songUrl, thumbnail});
+        const song = await songService.createSong({title, artists, year, duration, localSongPath, localThumbnailPath});
+        
         return res.status(200).json({
             success: true,
             data: song,

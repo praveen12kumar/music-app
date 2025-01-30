@@ -10,12 +10,23 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_SECRET
 });
 
-const uploadOnCloudinary = async (localFilePath) => {
+const uploadOnCloudinary = async (localFilePath, fileType="image") => {
+    console.log("localFilePath", localFilePath);
+    const resourceType = fileType.startsWith("image") ? "image" : "raw";
     try {
-        if (!localFilePath) return null;
+        if (!localFilePath){
+            throw{
+                message: "File not found",
+                success: false
+            }
+        };
 
         // Upload an image
-        const uploadResult = await cloudinary.uploader.upload(localFilePath);
+        const uploadResult = await cloudinary.uploader.upload(localFilePath,{
+            resource_type: resourceType,
+            folder: resourceType === "image" ? "images" : resourceType === "profile" ? "profiles" : "audio"
+        });
+        console.log("uploadResult", uploadResult);
         
         // Remove the file after a successful upload
         if (fs.existsSync(localFilePath)) {
@@ -36,8 +47,10 @@ const uploadOnCloudinary = async (localFilePath) => {
         if (fs.existsSync(localFilePath)) {
             fs.unlinkSync(localFilePath);
         }
-
-        return null;
+        throw {
+            message: error.message,
+            success: false
+        };
     }
 };
 

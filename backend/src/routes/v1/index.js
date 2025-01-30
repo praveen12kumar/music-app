@@ -72,7 +72,10 @@ router.get('/user/:id', authenticate, findUserById);
 
 // -------song-----------
 
-router.post('/songs/create', songCreate);
+router.post('/admin/songs/add',upload.fields([
+        {name: 'song', maxCount: 1},
+        {name: 'thumbnail', maxCount: 1},
+]),   authenticate,  songCreate);
 router.get('/songs', authenticate, songByArtist);
 router.get('/artists/:artistId', authenticate, allSongsOfArtist);
 router.get('/songs/:title', authenticate, getSongByTitle);

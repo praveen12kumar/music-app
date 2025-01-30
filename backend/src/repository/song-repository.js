@@ -22,8 +22,9 @@ class SongRepository extends CrudRepository{
     }
 
     async songByTitle(title){
-        const songs = await Song.find({title});
-        console.log("songs", songs);
+        
+        const songs = await Song.findOne({title});
+        //console.log("songs", songs);
         return songs
     }
 };
