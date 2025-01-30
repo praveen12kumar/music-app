@@ -4,12 +4,7 @@ const playlistSchema = new Schema({
     name: {
         type: String,
         required: true
-    },
-    thumbnail:{
-        type: String,
-        required: true
-    },
-    
+    }, 
     songs:[
         {
             type:mongoose.Schema.Types.ObjectId,

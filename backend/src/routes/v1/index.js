@@ -35,7 +35,9 @@ const router = express.Router();
 
 // -------auth-----------
 
-router.post('/signup', signup);
+router.post('/signup', upload.fields([
+        {name:"avatar", maxCount:1}
+]), signup);
 router.post('/login', login);
 router.post('/verify/email', verifyEmail);
 router.post('/logout', logout);

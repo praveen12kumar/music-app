@@ -9,8 +9,9 @@ const userService = new UserService();
 
 export const signup = async (req, res) => {
     const {username, email, password} = req.body;
+    const localImagePath = req?.files?.avatar[0]?.path;
 
-    if(!username || !email || !password){
+    if(!username || !email || !password || !localImagePath){
         return res.status(400).json({
             success: false,
             data: {},
@@ -20,7 +21,7 @@ export const signup = async (req, res) => {
     }
 
     try {
-        const response = await userService.signup({username, email, password}); 
+        const response = await userService.signup({username, email, password, localImagePath}); 
         
         res.cookie("token", response.token, 
             {

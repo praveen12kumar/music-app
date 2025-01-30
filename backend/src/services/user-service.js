@@ -12,6 +12,7 @@ class UserService{
     
     async signup(data) {
         // check if user already exist
+        const {username, email, password} = data;
         const user = await this.userRespository.findBy({email: data.email});
 
         if(user){
@@ -20,7 +21,29 @@ class UserService{
                 success: false,
             }
         }
-        const newUser = await this.userRespository.create(data);
+
+        const result = await uploadOnCloudinary(data.localImagePath, "profile");
+        //console.log("result", result.secure_url);
+ 
+        
+        
+        if(!result){
+            throw{
+                message:"profile upload failed",
+                success:false
+            }
+        }
+
+        const newObj = {
+            username,
+            email,
+            password,
+            avatar:result?.secure_url
+        }
+
+        const newUser = await this.userRespository.create(newObj);
+        //console.log("newUser", newUser);
+        
         const token = newUser.generateJWTToken();
 
         sendVerificationEmail(newUser.email, newUser.verificationToken);

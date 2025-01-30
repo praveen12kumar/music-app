@@ -67,7 +67,9 @@ userSchema.pre('save', async function(next){
         const verToken = Math.floor(100000 + Math.random() * 900000).toString();
         this.verificationToken = verToken;
         this.verificationTokenExpire = Date.now() + 10 * 60 * 1000;
-        this.avatar = `https://robohash.org/${this.username}`;
+        if(!this.avatar){
+            this.avatar = `https://robohash.org/${this.username}`;
+        }
         next();
     } catch (error) {
         next(error)

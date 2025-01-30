@@ -4,8 +4,8 @@ import { VERIFICATION_EMAIL_TEMPLATE, PASSWORD_RESET_REQUEST_TEMPLATE, PASSWORD_
 
 
 export const sendVerificationEmail = async(email, verificationToken)=>{
-    console.log("email", email);
-    console.log("verificationToken", verificationToken);
+    //console.log("email", email);
+    //console.log("verificationToken", verificationToken);
 
     const recipient = email
 

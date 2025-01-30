@@ -11,8 +11,8 @@ cloudinary.config({
 });
 
 const uploadOnCloudinary = async (localFilePath, fileType="image") => {
-    console.log("localFilePath", localFilePath);
-    const resourceType = fileType.startsWith("image") ? "image" : "raw";
+    //console.log("localFilePath", localFilePath);
+    const resourceType = fileType.startsWith("image") || fileType === "profile" ? "image" : "raw";
     try {
         if (!localFilePath){
             throw{
@@ -21,12 +21,17 @@ const uploadOnCloudinary = async (localFilePath, fileType="image") => {
             }
         };
 
+        const folder = fileType === "profile" ? "profiles" 
+                    : fileType.startsWith("image") ? "images" 
+                    : "audio";
+
+
         // Upload an image
         const uploadResult = await cloudinary.uploader.upload(localFilePath,{
             resource_type: resourceType,
-            folder: resourceType === "image" ? "images" : resourceType === "profile" ? "profiles" : "audio"
+            folder
         });
-        console.log("uploadResult", uploadResult);
+        //console.log("uploadResult", uploadResult);
         
         // Remove the file after a successful upload
         if (fs.existsSync(localFilePath)) {
