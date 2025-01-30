@@ -4,7 +4,7 @@ interface InputProps {
     type: string;
     placeholder?: string;
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    value: string;
+    value: string | undefined;
     name?: string;
     className: string;
     checkOnBlur?: () => void;

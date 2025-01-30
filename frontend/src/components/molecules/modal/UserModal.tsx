@@ -9,6 +9,13 @@ import Input from "../../atoms/input/Input";
 import { updateUserProfile } from "../../../redux/slices/user-slice";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
+
+interface UserType{
+  username: string | undefined;
+  avatar: string | File;
+}
+
+
 function UserModal({ close }: { close: () => void }) {
   const { user } = useSelector((state: RootState) => state.user);
   const dispatch = useAppDispatch();
@@ -16,7 +23,8 @@ function UserModal({ close }: { close: () => void }) {
 
   const [edit, setEdit] = useState(false);
   const [previewImage, setPreviewImage] = useState<string>(user?.avatar || "");
-  const [formValues, setFormValues] = useState({
+  
+  const [formValues, setFormValues] = useState<UserType>({
     username: user?.username,
     avatar: user?.avatar || "",
   });
