@@ -1,17 +1,22 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import GradientWrapper from "../../../components/molecules/gradientWrapper/GradientWrapper";
 import { verifyEmail } from "../../../redux/slices/auth-slice";
 import toast from "react-hot-toast";
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
 function EmailVerification() {
 	// State for storing the 6-digit code
 	const [code, setCode] = useState<string[]>(["", "", "", "", "", ""]);
 	const inputRefs = useRef<HTMLInputElement[]>([]); // Ref for input fields
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
 	// Handles input changes (including pasting)
 	const handleChange = (index: number, value: string) => {
+
+		if (!/^\d?$/.test(value)) return;
+
 		const newCode = [...code];
 
 		// Handle pasted content
@@ -48,23 +53,14 @@ function EmailVerification() {
 	const handleSubmit = async (e: React.FormEvent) => {
 		e.preventDefault();
 		const verificationCode = code.join("");
-
 		try {
-			await verifyEmail(verificationCode); // Replace with your actual function
-			toast.success("Email verified successfully");
+			await dispatch(verifyEmail(verificationCode)).unwrap(); // Replace with your actual function
 			navigate("/");
 		} catch (error) {
 			toast.error("something went wrong");
 			console.error(error);
 		}
 	};
-
-	// Auto-submit when all fields are filled
-	useEffect(() => {
-		if (code.every((digit) => digit !== "") && code.join("").length === 6) {
-			handleSubmit(new Event("submit") as unknown as React.FormEvent);
-		}
-	}, [code]);
 
 	return (
 		<GradientWrapper graditientStyles="custom-gradient-black">

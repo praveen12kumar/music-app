@@ -15,6 +15,14 @@ interface CustomInput extends HTMLInputElement {
   setInValid: () => void;
 }
 
+interface signupProps{
+    username:string;
+    email:  string;
+    password: string;
+    avatar:File | string; 
+
+}
+
 const Signup = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -23,7 +31,8 @@ const Signup = () => {
   const emailRef = useRef<CustomInput | null>(null);
   const passwordRef = useRef<CustomInput | null>(null);
 
-  const [signupValues, setSignupValues] = useState({username:"", email: "", password: ""});
+  const [signupValues, setSignupValues] = useState<signupProps>({username:"", email: "", password: "", avatar:""});
+  const [previewImage, setPreviewImage] = useState<string>("")
 
   const handleValidateUsername = ()=>{
     const username = signupValues.username;
@@ -73,6 +82,29 @@ const Signup = () => {
             console.error('Error during signup:', error);
         }
     }
+
+    function getImage(e: React.ChangeEvent<HTMLInputElement>) {
+        const uploadedImage = e.target.files?.[0]; // ✅ Use optional chaining to prevent errors
+        
+        if (!uploadedImage) return; // ✅ Ensure a file is selected
+    
+        setSignupValues((prev) => ({
+            ...prev,
+            avatar: uploadedImage
+        }));
+    
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(uploadedImage);
+        
+        fileReader.onload = () => { // ✅ Use `onload` for better readability
+            if (fileReader.result) {
+                setPreviewImage(fileReader.result.toString()); // ✅ Ensure result is a string
+            }
+        };
+    }
+    
+
+
     
   
   return (
@@ -80,7 +112,8 @@ const Signup = () => {
       <GradientWrapper graditientStyles="custom-gradient-slate">
         <div className="w-full h-dvh flex items-center justify-center">
             <div className={`w-5/12 h-[95%] rounded-lg  bg-[#181818] flex justify-center `}>
-                <form className="w-[70%] h-full flex flex-col gap-3 items-center py-6" onSubmit={createNewAccount} noValidate>
+                <form className="w-[70%] h-full flex flex-col gap-1 items-center py-4" onSubmit={createNewAccount} noValidate>
+                    
                     <div className="w-full flex flex-col gap-2 items-center justify-center">
                         <LogoImage width={40} height={40} />
                         <p className="text-4xl font-bold text-white font-poppins mr-10 ">Sign up to</p>
@@ -88,6 +121,27 @@ const Signup = () => {
                     </div>
 
                     <div className="w-full h-[1px] bg-[#333333]"></div>
+
+                    <div className="w-3/4 flex flex-col gap-1 my-2 items-center justify-center">
+                    <label htmlFor="image_uploads" className="cursor-pointer">
+                        {
+                            previewImage ? (
+                                <img src={previewImage} className="w-20 h-20 rounded-full m-auto" />
+                            ) : (
+                                <img src="https://robohash.org/usernam" className="w-20 h-20 rounded-full border-2 border-gray-200 m-auto cursor-pointer" />
+                            )
+                        }
+                    </label>
+                    <input 
+                        type="file" 
+                        name="image_uploads"
+                        id="image_uploads" 
+                        accept=".jpg, .jpeg, .png, .svg, webp" 
+                        className="hidden"
+                        onChange={getImage} 
+                        />
+                    </div>
+                
 
                     <div className="w-3/4 flex flex-col gap-2">
                         <p className="text-md font-medium text-white">Username</p>

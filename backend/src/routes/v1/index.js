@@ -39,7 +39,7 @@ router.post('/signup', upload.fields([
         {name:"avatar", maxCount:1}
 ]), signup);
 router.post('/login', login);
-router.post('/verify/email', verifyEmail);
+router.post('/verify-email', verifyEmail);
 router.post('/logout', logout);
 router.post('/auth/forgot-password', forgotPassword);
 router.post('/reset-password/:token',  resetPassword);

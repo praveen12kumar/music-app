@@ -41,10 +41,14 @@ class UserRepository extends CrudRepository {
 
 
     async findUserByToken(code){
+        //console.log("code",code);
+        
         try {
             const response = await User.findOne({
                 verificationToken:code, 
                 verificationTokenExpire: {$gt: Date.now()}});
+                //console.log("response repository",response);
+                
             return response;
         } catch (error) {
             throw error

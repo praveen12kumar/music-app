@@ -3,8 +3,15 @@ import { axiosInstance } from "../../helpers/axiosInstance";
 import toast from "react-hot-toast";
 
 
+interface UserProp {
+  username: string;
+  email: string;
+  avatar: string;
+  subscribedArtists: string[];
+}
+
 interface AuthState {
-  user: any;
+  user: UserProp | null;
   isLoggedIn: boolean | string;
   role: string;
 }
@@ -25,11 +32,22 @@ interface SignupPayload {
   username: string;
   email: string;
   password: string;
+  avatar:string | File;
 }
 
 export const register = createAsyncThunk( "auth/register", async (data :SignupPayload , { rejectWithValue }) => {
+
+  const formData = new FormData();
+  formData.append("username", data.username);
+  formData.append('email', data.email);
+  formData.append('password', data.password);
+  formData.append('avatar', data.avatar);
+
   try {
-      const response = axiosInstance.post("/signup", data);
+      const response = axiosInstance.post("/signup", formData,{
+        headers:
+          { "Content-Type": "multipart/form-data" },
+        });
       
       await toast.promise(response, {
         loading: "Wait! Creating your account...",
@@ -66,6 +84,8 @@ export const login = createAsyncThunk("auth/login", async (data: LoginPayload, {
 
 //--------------------Verify Email-------------
 export const verifyEmail = createAsyncThunk("auth/verifyEmail", async (data: string, { rejectWithValue }) => {
+  console.log("data", data);
+  
   try {
     const response = axiosInstance.post("/verify-email", { code: data });
     await toast.promise(response, {
@@ -120,6 +140,12 @@ export const authSlice = createSlice({
         state.user = action?.payload?.data;
         state.isLoggedIn = true;
         state.role = action?.payload?.data?.role;
+      })
+
+      .addCase(verifyEmail.fulfilled, (state, action)=>{
+        console.log(action);
+        state.isLoggedIn = true;
+        state.user = action?.payload?.data;
       })
 
       .addCase(logout.fulfilled, (state) => {

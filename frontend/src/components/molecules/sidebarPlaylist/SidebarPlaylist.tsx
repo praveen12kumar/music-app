@@ -1,7 +1,7 @@
 import { useState } from "react";
 import SidebarPlaylistItem from "../../atoms/sidebarPlayItem/SidebarPlayItem";
-import amit from "../../../assets/images/amit.webp";
-import mohit from "../../../assets/images/mohit.webp";
+import amit from "../../../assets/images/amit.jpg";
+import mohit from "../../../assets/images/mohit.jpg";
 import epr from "../../../assets/images/epr.webp";
 
 
