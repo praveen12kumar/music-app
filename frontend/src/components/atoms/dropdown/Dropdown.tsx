@@ -52,7 +52,7 @@ const Dropdown = () => {
         {
           user?.role === "ADMIN" && (
             <li className="w-full list-none text-gray-300 text-sm px-4 py-3 rounded-sm font-medium hover:text-white hover:bg-[#444444] hover:underline hover:underline-offset-2 cursor-pointer"
-            onClick={() => navigate("/admin/addSong")}>
+            onClick={() => navigate("/admin")}>
               Admin
             </li>
           )

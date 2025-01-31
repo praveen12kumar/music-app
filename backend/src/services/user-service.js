@@ -210,6 +210,18 @@ class UserService{
         }
     }
 
+
+
+    async getAllUsers(){
+        try {
+            const users = await this.userRespository.getAll();  
+            return users
+
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }
 
 

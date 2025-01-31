@@ -9,7 +9,9 @@ import {signup,
 
 import { getUserDetails, 
         findUserById,
-        updateUserProfile
+        updateUserProfile,
+        getAllUsers,
+
 } from '../../controllers/user-controller.js';
 
 import { songCreate, 
@@ -27,7 +29,7 @@ import { createPlaylist,
 
 import {authenticate} from "../../middlewares/authenticate.js";
 import {upload} from "../../middlewares/multer-middlewarer.js";
-import multer from 'multer';
+import { requireAdmin } from '../../middlewares/authAdmin.js';
 
 
 
@@ -48,28 +50,8 @@ router.post('/reset-password/:token',  resetPassword);
 //--------------user----------------------
 
 router.get("/user", authenticate, getUserDetails);
-router.put('/user/update-profile',authenticate,(req, res, next)=>{
-        upload.single("avatar")(req, res, (err)=>{
-                if(err){
-                        if(err instanceof multer.MulterError){
-                                if(err.code === 'LIMIT_FILE_SIZE'){
-                                        return res.status(413).json({
-                                                message: "File too large",
-                                                success:false
-                                        })
-                                }
-                                else{
-                                        return res.status(400).json({
-                                                message: err.message,
-                                                success:false
-                                        })
-                                }
-                        }
-                }
-                next();
-        })
-
-}, updateUserProfile);
+router.get('user/all', authenticate, getAllUsers);
+router.put('/user/update-profile',authenticate, upload.fields([{name:"avatar", maxCount:1}]), updateUserProfile);
 router.get('/user/:id', authenticate, findUserById);
 
 // -------song-----------
@@ -77,7 +59,8 @@ router.get('/user/:id', authenticate, findUserById);
 router.post('/admin/songs/add',upload.fields([
         {name: 'song', maxCount: 1},
         {name: 'thumbnail', maxCount: 1},
-]),   authenticate,  songCreate);
+]),   authenticate, requireAdmin, songCreate);
+
 router.get('/songs', authenticate, songByArtist);
 router.get('/artists/:artistId', authenticate, allSongsOfArtist);
 router.get('/songs/:title', authenticate, getSongByTitle);

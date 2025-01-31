@@ -42,6 +42,25 @@ export const findUserById = async(req, res)=>{
     }
 }
 
+export const getAllUsers = async(req, res)=>{
+    try {
+        const users = await userService.getAllUsers();
+        return res.status(200).json({
+            success: true,
+            data: users,
+            message: "Users found successfully",
+            err:{}
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            data: {},
+            message: "Something went wrong",
+            err: error
+        })
+    }
+}
+
 
 export const updateUserProfile = async(req, res)=>{
 

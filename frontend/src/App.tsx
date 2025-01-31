@@ -13,8 +13,7 @@ import AboutUs from './pages/AboutUs';
 import Denied from './pages/Denied';
 import NotFound from './pages/NotFound';
 import RequireAuth from './pages/auth/requireAuth/RequireAuth';
-import AddSong from './pages/admin/AddSong';
-
+import AdminPage from './pages/admin/Admin';
 
 
 function App() {
@@ -35,7 +34,7 @@ function App() {
 
         //--------------ADMIN---------------------
           <Route element={<RequireAuth allowedRoles={['ADMIN']}/>}>
-            <Route path='admin/addSong' element={<AddSong/>}/>
+            <Route path='/admin' element={<AdminPage/>}/>
           </Route>
 
 

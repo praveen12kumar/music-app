@@ -13,6 +13,10 @@ const songSchema = new Schema({
         type: Number,
         required: true
     },
+    duration:{
+        type: Number,
+        required: true
+    },
     songUrl: {
         type: String,
     },
@@ -20,6 +24,11 @@ const songSchema = new Schema({
         type: String,
         
     },
+    albumId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Album",
+        required:false,
+    }
 },
 {
     timestamps: true
