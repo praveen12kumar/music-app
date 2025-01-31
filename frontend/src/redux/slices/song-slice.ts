@@ -53,3 +53,6 @@ const songSlice = createSlice({
     reducers:{},
     extraReducers: (builder) => {}
 })
+
+
+export default songSlice.reducer

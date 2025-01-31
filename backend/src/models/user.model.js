@@ -44,10 +44,6 @@ const userSchema = new Schema({
         type: [String],
         default:""
     },
-    subscribedPlaylists:{
-        type: [String],
-        default:""
-    },
     resetPasswordToken: String,
     resetPasswordExpire: Date,
     verificationToken: String,

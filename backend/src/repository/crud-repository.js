@@ -24,7 +24,7 @@ class CrudRepository{
 
     async get(id){
         try {
-            const result = await this.model.findById(id).select("-password");
+            const result = await this.model.findById(id);
             return result;
         } catch (error) {
             //console.log("error", error);  

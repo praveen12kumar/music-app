@@ -15,9 +15,13 @@ import { getUserDetails,
 } from '../../controllers/user-controller.js';
 
 import { songCreate, 
-        songByArtist, 
         allSongsOfArtist,
         getSongByTitle,
+        deleteSong,
+        getAllSongs,
+        getFeaturedSongs,
+        getTrendingSongs,
+        getMadeForYouSongs,
 
     } from '../../controllers/song-controller.js';
 
@@ -26,6 +30,19 @@ import { createPlaylist,
         findAllPlaylistByArtist,
         addSongToPlaylist
  } from '../../controllers/playlist-controller.js';
+
+
+
+ //-----------album------------
+
+ import {
+        createAlbum,
+        deleteAlbum,
+        getAllAlbums,
+        getAlbumDetails
+ } from "../../controllers/album-controller.js"
+
+
 
 import {authenticate} from "../../middlewares/authenticate.js";
 import {upload} from "../../middlewares/multer-middlewarer.js";
@@ -60,10 +77,40 @@ router.post('/admin/songs/add',upload.fields([
         {name: 'song', maxCount: 1},
         {name: 'thumbnail', maxCount: 1},
 ]),   authenticate, requireAdmin, songCreate);
+router.delete('/admin/songs/:songId', authenticate, requireAdmin,  deleteSong);
 
-router.get('/songs', authenticate, songByArtist);
+router.get('/songs/all', authenticate, getAllSongs);
+router.get('/songs/featured', getFeaturedSongs);
+router.get('/songs/trending', getTrendingSongs);
+router.get('/songs/made-for-you', authenticate, getMadeForYouSongs);
+
 router.get('/artists/:artistId', authenticate, allSongsOfArtist);
 router.get('/songs/:title', authenticate, getSongByTitle);
+
+
+
+
+
+//-------------------Album -----------------------
+
+router.post('/admin/albums/add', authenticate, requireAdmin, upload.fields([
+        {name:"thumbnail", maxCount:1}
+]), createAlbum)
+
+router.delete('/admin/album/:albumId', authenticate, requireAdmin, deleteAlbum);
+
+router.delete('/album/all',  getAllAlbums);
+
+router.get('/album/:albumId', getAlbumDetails);
+
+
+
+
+
+
+
+
+
 
 
 // -------playlist-----------

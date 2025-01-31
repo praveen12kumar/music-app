@@ -1,15 +1,19 @@
 import uploadOnCloudinary from "../config/cloudinary-config.js";
 import { SongRepository } from "../repository/index.js";
 import {UserRepository} from "../repository/index.js"
+import {AlbumRepository} from "../repository/index.js";
+
+
 class SongService{
 
     constructor(){
         this.songRepository = new SongRepository();
         this.userRepository = new UserRepository();
+        this.albumRepository = new AlbumRepository();
     }
 
     async createSong(data){
-        const {title, artists, year,localSongPath, localThumbnailPath } = data;
+        const {title, artist, duration, albumId, localSongPath, localThumbnailPath } = data;
         try {
             const song = await this.songRepository.songByTitle(data.title);
         
@@ -45,13 +49,21 @@ class SongService{
 
         const newSong = {
             title,
-            artists,
-            year,
+            artist,
+            duration,
+            albumId: albumId || null,
             songUrl: songUrl?.secure_url,
             thumbnail: thumbnail?.secure_url
         }
 
         const songResult = await this.songRepository.create(newSong);
+
+        // if song belong to an album update album's songs array
+        if(albumId){
+            await this.albumRepository.addSongToAlbum(albumId, songResult._id);
+        }
+
+
         //console.log(songResult)
         return songResult;
         } catch (error) {
@@ -62,11 +74,89 @@ class SongService{
         }
     }
 
+    //----------Delete Song-----------------
 
-    async findSongByArtist(artistId){
-        const songs = await this.songRepository.songOfArtist(artistId);
+
+    async deleteSong(songId){
+       try {
+            const song = await this.songRepository.get(songId);
+            if(!song){
+                throw{
+                    message:"Song not found",
+                    success: false,
+                }
+            }
+            
+            // check if song belongs to an album and remove song from album's songs array
+            if(song.albumId){
+                await this.albumRepository.removeSongFromAlbum(song.albumId, songId);
+            }
+
+            const deletedSong = await this.songRepository.destroy(songId);
+            return deletedSong;
+            }
+        catch (error) {
+            
+       }
+    }
+
+    //--------------getALlSOngs-----------------
+
+    async getAllSongs(){
+        const songs = await this.songRepository.getSongs();
         return songs
     }
+
+
+    //----------Get featured songs
+
+    async getFeaturedSongs(){
+        try {
+            const songs = await this.songRepository.getFeaturedSongsRepo();
+            return songs
+        } catch (error) {
+            throw error
+        }
+    }
+
+    async getTrendingSongs(){
+        try {
+            const songs = await this.songRepository.getTrendingSongsRepo();
+            return songs
+        } catch (error) {
+            
+        }
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
     async getAllSongsOfArtist(artistId){

@@ -10,11 +10,14 @@ const albumSchema = new Schema({
         type:String,
         required:true
     },
-    imageUrl:{
+    thumbnail:{
         type: String,
         required: true
     },
-
+    releaseYear:{
+        type: Number,
+        required: true
+    },
     songs:[
         {
             type:mongoose.Schema.Types.ObjectId,
