@@ -13,10 +13,6 @@ const songSchema = new Schema({
         type: Number,
         required: true
     },
-    duration: {
-        type: Number,
-        required: true
-    },
     songUrl: {
         type: String,
     },

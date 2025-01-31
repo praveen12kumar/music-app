@@ -1,9 +1,14 @@
 import { logout } from "../../../redux/slices/auth-slice";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../redux/store/store";
+
+
 
 const Dropdown = () => {
   const dispatch = useAppDispatch();
+  const {user} = useSelector((state: RootState) => state.auth);  
   const navigate = useNavigate();
 
   const dropdownlist = [
@@ -43,6 +48,16 @@ const Dropdown = () => {
             {list.name}
           </li>
       ))}
+      
+        {
+          user?.role === "ADMIN" && (
+            <li className="w-full list-none text-gray-300 text-sm px-4 py-3 rounded-sm font-medium hover:text-white hover:bg-[#444444] hover:underline hover:underline-offset-2 cursor-pointer"
+            onClick={() => navigate("/admin/addSong")}>
+              Admin
+            </li>
+          )
+        }
+      
     </div>
   );
 };

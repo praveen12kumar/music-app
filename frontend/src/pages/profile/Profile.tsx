@@ -3,7 +3,7 @@ import { FiEdit2 } from "react-icons/fi"
 import GradientWrapper from "../../components/molecules/gradientWrapper/GradientWrapper";
 import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
-import { getUserDetails } from "../../redux/slices/user-slice";
+import { getUserDetails } from "../../redux/slices/auth-slice";
 import { useEffect } from "react";
 import { useAppDispatch } from "../../hooks/useAppDispatch";
 import useModal from "../../hooks/useModal";
@@ -15,7 +15,7 @@ const Profile = () => {
   const{isModalOpen, open, close} = useModal();
 
 
-  const {user} = useSelector((state: RootState) => state.user);
+  const {user} = useSelector((state: RootState) => state.auth);
   
   const [showEdit, setShowEdit] = useState<boolean>(false)
 

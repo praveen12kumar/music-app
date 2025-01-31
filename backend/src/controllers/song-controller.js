@@ -7,9 +7,9 @@ export const songCreate = async (req, res) => {
     const localThumbnailPath = req.files?.thumbnail[0]?.path;
     const localSongPath = req.files?.song[0]?.path;
 
-    const {title, artists, year, duration} = req.body;
+    const {title, artists, year} = req.body;
     try {
-        const song = await songService.createSong({title, artists, year, duration, localSongPath, localThumbnailPath});
+        const song = await songService.createSong({title, artists, year,  localSongPath, localThumbnailPath});
         
         return res.status(200).json({
             success: true,

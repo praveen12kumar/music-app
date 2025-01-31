@@ -9,7 +9,7 @@ class SongService{
     }
 
     async createSong(data){
-        const {title, artists, year, duration, localSongPath, localThumbnailPath } = data;
+        const {title, artists, year,localSongPath, localThumbnailPath } = data;
         try {
             const song = await this.songRepository.songByTitle(data.title);
         
@@ -47,7 +47,6 @@ class SongService{
             title,
             artists,
             year,
-            duration,
             songUrl: songUrl?.secure_url,
             thumbnail: thumbnail?.secure_url
         }

@@ -6,7 +6,7 @@ import { useState } from "react";
 import Button from "../../atoms/button/Button";
 import toast from "react-hot-toast";
 import Input from "../../atoms/input/Input";
-import { updateUserProfile } from "../../../redux/slices/user-slice";
+import { updateUserProfile } from "../../../redux/slices/auth-slice";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 
 
@@ -17,7 +17,7 @@ interface UserType{
 
 
 function UserModal({ close }: { close: () => void }) {
-  const { user } = useSelector((state: RootState) => state.user);
+  const { user } = useSelector((state: RootState) => state.auth);
   const dispatch = useAppDispatch();
 
 

@@ -9,9 +9,9 @@ import { RootState } from "../../../redux/store/store";
 
 const NavbarUser = () => {
 
-    const {isLoggedIn} = useSelector((state:RootState) => state?.auth);
+    const {isLoggedIn, user} = useSelector((state:RootState) => state?.auth);
     const navigate = useNavigate();
-    const {user} = useSelector((state:RootState) => state?.user);
+    
 
     const { ref, isComponentVisible, setIsComponentVisible } = useComponentVisible();
   return (
