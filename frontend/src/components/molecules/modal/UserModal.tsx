@@ -69,7 +69,7 @@ function UserModal({ close }: { close: () => void }) {
   }
 
   function handleUpdateUser(){
-    console.log("formValues",formValues);
+    //console.log("formValues",formValues);
     dispatch(updateUserProfile(formValues));
     //dispatch(getUserDetails());
     close();

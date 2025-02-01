@@ -75,7 +75,7 @@ export const login = createAsyncThunk("auth/login", async (data: LoginPayload, {
       success: (res) => res.data?.message || "Logged in successfully!",
       error: (err) => err?.response?.data?.message || "Failed to login",
     });
-    console.log("response", await response);
+    //console.log("response", await response);
     return (await response).data;
 
   } catch (error:string | any) {
@@ -127,7 +127,7 @@ export const logout = createAsyncThunk("auth/logout", async (_, { rejectWithValu
 
 export const getUserDetails = createAsyncThunk("user/getUserDetails", async (_, { rejectWithValue }) => {
   try {
-    const response = axiosInstance.get("/user");
+    const response = axiosInstance.get("/users");
     await toast.promise(response, {
       loading: "Wait! Fetching user details...",
       success: "User details fetched successfully",
@@ -153,7 +153,7 @@ export const updateUserProfile = createAsyncThunk("user/updateUserProfile", asyn
   formdata.append("avatar", data.avatar);
   
    try {
-     const response = axiosInstance.put("/user/update-profile", formdata, {
+     const response = axiosInstance.put("/users/update-profile", formdata, {
        headers: { "Content-Type": "multipart/form-data" },
      });
 

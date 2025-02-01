@@ -1,7 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { SongProp } from "../../interface";
 import { axiosInstance } from "../../helpers/axiosInstance";
 import toast from "react-hot-toast";
+
+interface SongProp{
+    title:string,
+    artist:string,
+    album:string,
+    duration:string,
+    thumbnail:File,
+    song:File
+}
 
 
 interface SongState {
@@ -12,17 +20,19 @@ const initialState: SongState = {
     song: [],
 };
 
-const addSong = createAsyncThunk("song/addSong", async (data: SongProp, { rejectWithValue }) => {
+export const addSong = createAsyncThunk("song/addSong", async (data:SongProp, { rejectWithValue }) => {
+    console.log("data", data);
+    
     try {
         const formData = new FormData();
         formData.append("title", data.title);
         formData.append("artist", data.artist);
         formData.append("album", data.album);
         formData.append("duration", data.duration);
-        formData.append("thumbnailUrl", data.thumbnailUrl);
-        formData.append("songUrl", data.songUrl);
+        formData.append("thumbnail", data.thumbnail);
+        formData.append("song", data.song);
 
-        const response = axiosInstance.post('/admin/songs/add', formData, {
+        const response =  axiosInstance.post('/admin/songs/add', formData, {
             headers:{
                 "Content-Type": "multipart/form-data"
             }
@@ -39,15 +49,16 @@ const addSong = createAsyncThunk("song/addSong", async (data: SongProp, { reject
         return (await response).data
 
 
-    } catch (error) {
-        
+    } catch (error:any) {
+        toast.error(error.response?.data?.message || "Something went wrong");
+        return rejectWithValue(error.response?.data || error.message);
     }
 });
 
 
 
 
-const songSlice = createSlice({
+export const songSlice = createSlice({
     name: "song",
     initialState,
     reducers:{},
@@ -55,4 +66,4 @@ const songSlice = createSlice({
 })
 
 
-export default songSlice.reducer
+export const songReducer = songSlice.reducer;

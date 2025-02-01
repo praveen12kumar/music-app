@@ -5,9 +5,10 @@ const albumService = new AlbumService();
 export const createAlbum = async (req, res) => {
     try {
         const {title, artist, releaseYear} = req.body;
+       
+        const localThumbnailPath = req.file?.path;
+        //console.log(localThumbnailPath);
         
-        const localThumbnailPath = req.files?.thumbnail[0]?.path;
-
         const album = await albumService.createAlbum({title, artist, releaseYear, localThumbnailPath});
         
         return res.status(200).json({
@@ -49,7 +50,7 @@ export const createAlbum = async (req, res) => {
             return res.status(500).json({
                 success: false,
                 data: {},
-                message: "Something went wrong",
+                message: error.message,
                 err: error
             });
         }

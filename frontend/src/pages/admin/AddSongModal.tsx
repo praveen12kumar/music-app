@@ -1,58 +1,69 @@
-import { IoClose } from "react-icons/io5";
-import GradientWrapper from "../gradientWrapper/GradientWrapper";
 import React, { useState } from "react";
+import { IoClose } from "react-icons/io5";
+import GradientWrapper from "../../components/molecules/gradientWrapper/GradientWrapper.js"
 import toast from "react-hot-toast";
-import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import upload from "../../../assets/images/upload.svg";
-import Input from "../../atoms/input/Input";
-import Button from "../../atoms/button/Button";
+import { useAppDispatch } from "../../hooks/useAppDispatch.js";
+import upload from "../../assets/images/upload.svg";
+import Input from "../../components/atoms/input/Input.js";
+import Button from "../../components/atoms/button/Button.js";
+import {addSong} from "../../redux/slices/song-slice.js";
+
+
 
 interface SongProp{
     title:string,
     artist:string,
     album:string,
     duration:string,
-    thumbnailUrl:File | null,
-    songUrl:File | null
+    thumbnail:File | null,
+    song:File | null
 }
 
 function AddSongModal({close}:{close:()=>void}){
 
     const dispatch = useAppDispatch();
+    
 
     const [formValues, setFormValues] = useState<SongProp>({
         title: "",
         artist: "",
         album: "",
         duration: "",
-        thumbnailUrl:null,
-        songUrl:null
+        thumbnail:null,
+        song:null
     });
 
     const [previewImage, SetPreviewImage] = useState<string>("");
     const [fileName, setFileName] = useState<string | null>(null)
 
-    function handleSubmit(e:React.FormEvent<HTMLFormElement>){
+    async function handleSubmit(e:React.FormEvent<HTMLFormElement>){
         e.preventDefault();
         console.log("formValues", formValues);
-        const {title, artist, duration, thumbnailUrl, songUrl} = formValues;
-        if(!title || !artist || !duration || !thumbnailUrl || !songUrl){
+        const {title, artist, duration, thumbnail, song} = formValues;
+        if(!title || !artist || !duration || !thumbnail || !song){
             toast.error("Please fill all the fields");
             return;
         }
         console.log("formValues", formValues);
-        // dispatch({
-        //     type:"ADD_SONG",
-        //     payload:formValues
-        // })
-
+        const validFormValues = {
+            title,
+            artist,
+            album: formValues.album,
+            duration,
+            thumbnail: thumbnail as File, // Ensure it's a File
+            song: song as File, // Ensure it's a File
+        };
+        console.log("hello");
+        
+        await dispatch(addSong(validFormValues));
+        console.log("hello hi");
         setFormValues({
             title: "",
             artist: "",
             album: "",
             duration: "",
-            thumbnailUrl:null,
-            songUrl:null
+            thumbnail:null,
+            song:null
         })
         close();
     }
@@ -74,7 +85,7 @@ function AddSongModal({close}:{close:()=>void}){
         }
         setFormValues({
             ...formValues,
-            thumbnailUrl:uploadedImage
+            thumbnail:uploadedImage
         })
         const fileReader = new FileReader();
         fileReader.readAsDataURL(uploadedImage);
@@ -94,7 +105,7 @@ function AddSongModal({close}:{close:()=>void}){
         }
         setFormValues({
             ...formValues,
-            songUrl:uploadedAudio
+            song:uploadedAudio
         })
     }
 
@@ -104,6 +115,8 @@ function AddSongModal({close}:{close:()=>void}){
         }
         getAudio(e)
     }
+
+
 
     const inputStyle = "w-full bg-zinc-900 text-sm font-medium text-white placeholder-zinc-500 cursor-pointer outline-none border border-gray-400 rounded-md py-2 px-3 hover:border-white focus:border-none  focus:outline focus:outline-white" 
 

@@ -42,7 +42,7 @@ export const findUserById = async(req, res)=>{
     }
 }
 
-export const getAllUsers = async(req, res)=>{
+export const  getAllUsers = async(req, res)=>{
     try {
         const users = await userService.getAllUsers();
         return res.status(200).json({
@@ -63,8 +63,8 @@ export const getAllUsers = async(req, res)=>{
 
 
 export const updateUserProfile = async(req, res)=>{
-
     try {
+       
         const localImagePath = req.file?.path;
         const username = req.body.username;
         const user = await userService.updateUser(req.user.id, username, localImagePath );

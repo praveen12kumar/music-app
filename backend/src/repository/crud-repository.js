@@ -35,6 +35,8 @@ class CrudRepository{
 
     async getAll(){
         try {
+           
+            
             const result = await this.model.find();
             return result;
         } catch (error) {

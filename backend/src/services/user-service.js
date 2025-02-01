@@ -3,6 +3,7 @@ import { sendVerificationEmail, sendWelcomeEmail, sendPasswordResetEmail, sendRe
 import crypto from "crypto";
 import brcypt from "bcrypt";
 import uploadOnCloudinary from "../config/cloudinary-config.js";
+import { log } from "console";
 
 class UserService{
 
@@ -214,7 +215,7 @@ class UserService{
 
     async getAllUsers(){
         try {
-            const users = await this.userRespository.getAll();  
+            const users = await this.userRespository.getAll(); 
             return users
 
         } catch (error) {

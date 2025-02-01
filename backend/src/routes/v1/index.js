@@ -43,6 +43,8 @@ import { createPlaylist,
  } from "../../controllers/album-controller.js"
 
 
+import { getAllStats } from '../../controllers/stat-controller.js';
+
 
 import {authenticate} from "../../middlewares/authenticate.js";
 import {upload} from "../../middlewares/multer-middlewarer.js";
@@ -66,10 +68,10 @@ router.post('/reset-password/:token',  resetPassword);
 
 //--------------user----------------------
 
-router.get("/user", authenticate, getUserDetails);
-router.get('user/all', authenticate, getAllUsers);
-router.put('/user/update-profile',authenticate, upload.fields([{name:"avatar", maxCount:1}]), updateUserProfile);
-router.get('/user/:id', authenticate, findUserById);
+router.get("/users", authenticate, getUserDetails);
+router.get('/users/all', authenticate, requireAdmin, getAllUsers);
+router.put('/users/update-profile',authenticate, upload.single('avatar'), updateUserProfile);
+router.get('/users/:id', authenticate, findUserById);
 
 // -------song-----------
 
@@ -93,9 +95,7 @@ router.get('/songs/:title', authenticate, getSongByTitle);
 
 //-------------------Album -----------------------
 
-router.post('/admin/albums/add', authenticate, requireAdmin, upload.fields([
-        {name:"thumbnail", maxCount:1}
-]), createAlbum)
+router.post('/admin/albums/add',upload.single('thumbnail'), authenticate, requireAdmin,  createAlbum)
 
 router.delete('/admin/album/:albumId', authenticate, requireAdmin, deleteAlbum);
 
@@ -108,7 +108,7 @@ router.get('/album/:albumId', getAlbumDetails);
 
 
 
-
+router.get('/admin/stats', authenticate, requireAdmin, getAllStats);
 
 
 

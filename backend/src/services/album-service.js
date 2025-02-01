@@ -42,9 +42,15 @@ class AlbumService {
                 thumbnail: result?.secure_url
             })
 
+            //console.log("album", album);
+            
+
             return album;
         } catch (error) {
-            
+            throw{
+                message:error.message,
+                success: false
+            }
         }
     }
 
