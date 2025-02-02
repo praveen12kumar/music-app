@@ -5,6 +5,7 @@ import { MdDeleteOutline } from "react-icons/md";
 import { MdDateRange } from "react-icons/md";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { deleteAlbum } from "../../../redux/slices/album-slice";
+import { getAllAlbums } from "../../../redux/slices/album-slice";
 
 
 interface AlbumPropResponse{
@@ -27,10 +28,10 @@ const AlbumTableAdmin : React.FC<Props> = ({albums=[]}) => {
     const {isModalOpen, open, close} = useModal();
     const dispatch = useAppDispatch();
 
-    function handleAlbumDelete(albumId: string) {
+    async function handleAlbumDelete(albumId: string) {
       console.log("albumId", albumId);
-      dispatch(deleteAlbum(albumId));
-
+      await dispatch(deleteAlbum(albumId));
+      await dispatch(getAllAlbums());
     }
   
     return (

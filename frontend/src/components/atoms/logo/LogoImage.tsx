@@ -4,12 +4,18 @@ interface LogoImageProps {
     className?:string;
 }
 
+import { useNavigate } from "react-router-dom";
 import logo from "../../../assets/images/logo.png";
 
 
 const LogoImage : React.FC<LogoImageProps> = ({width, height, className}) => {
+
+  const navigate = useNavigate();
+
   return (
-        <div className="w-1/3 h-full flex flex-row items-center pl-5">
+        <div 
+          onClick={() => navigate("/")}
+          className="w-1/3 h-full flex flex-row items-center pl-5 cursor-pointer">
           <img className={`rounded-full border-none bg-white ${className}`} 
               src={logo} 
               alt="logo" 

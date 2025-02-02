@@ -1,35 +1,29 @@
-import { useState } from "react";
+import {useEffect} from 'react'
 import SidebarPlaylistItem from "../../atoms/sidebarPlayItem/SidebarPlayItem";
-import amit from "../../../assets/images/amit.jpg";
-import mohit from "../../../assets/images/mohit.jpg";
-import epr from "../../../assets/images/epr.webp";
-
+import { useAppDispatch } from '../../../hooks/useAppDispatch';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../redux/store/store';
+import { getAllAlbums } from '../../../redux/slices/album-slice';
 
 
 const SidebarPlaylist = () => {
 
-    const [playlist] = useState([
-        {
-            image: amit,
-            name: "Amit Trevedi"
-        },
-        {
-            image: mohit,
-            name: "Mohit Chauhan"
-        },
-        {
-            image: epr,
-            name: "EPR Iyer"
-        }
-    ])
+  const dispatch = useAppDispatch();
+
+  const {albums} = useSelector((state: RootState)=> state.albums);
+
+
+  useEffect(()=>{
+    dispatch(getAllAlbums());
+  },[])
 
   return (
     <div className=" h-2/3 overflow-y-auto">
           <ul className="space-y-2 flex flex-col gap-2">
            
           {
-            playlist.map((item, index) => (
-              <SidebarPlaylistItem key={index} image={item.image} name={item.name} />
+            albums && albums?.map((item, index) => (
+              <SidebarPlaylistItem key={index} image={item.thumbnail} name={item?.title} />
             ))
           }
 

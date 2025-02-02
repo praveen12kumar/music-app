@@ -1,13 +1,21 @@
 import SidebarNavigation from "../../molecules/sidebarNavigation/SidebarNavigation"
 import Input from "../../atoms/input/Input";
 import { FiSearch } from "react-icons/fi";
-import { useState } from "react";
+import {useState } from "react";
 import SidebarPlaylist from "../../molecules/sidebarPlaylist/SidebarPlaylist";
+
+
 
 const Sidebar = () => {
 
+ 
+
   const [search, setSearch] = useState("");
   const [active, setActive] = useState(false);
+
+ 
+
+
 
   return (
     <div className="w-full h-full bg-[#121212] px-2 text-gray-300 my-2 ml-1 rounded-lg">
