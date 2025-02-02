@@ -99,7 +99,7 @@ router.post('/admin/albums/add',upload.single('thumbnail'), authenticate, requir
 
 router.delete('/admin/album/:albumId', authenticate, requireAdmin, deleteAlbum);
 
-router.delete('/album/all',  getAllAlbums);
+router.get('/albums/all',  getAllAlbums);
 
 router.get('/album/:albumId', getAlbumDetails);
 

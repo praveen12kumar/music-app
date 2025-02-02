@@ -2,26 +2,35 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../helpers/axiosInstance";
 import toast from "react-hot-toast";
 
-interface SongProp{
+interface SongPropData{
     title:string,
     artist:string,
     album:string,
     duration:string,
     thumbnail:File,
-    song:File
+    song:File,
+    albumId?:string
+}
+interface SongResponse {
+    title: string;
+    artist: string;
+    album: string;
+    duration: string;
+    thumbnail: string; // URL when receiving
+    song: string;      // URL when receiving
+    albumId?: string;
 }
 
 
 interface SongState {
-    song: string[];
+    songs: SongResponse[];
 }
 
 const initialState: SongState = {
-    song: [],
+    songs: [],
 };
 
-export const addSong = createAsyncThunk("song/addSong", async (data:SongProp, { rejectWithValue }) => {
-    console.log("data", data);
+export const addSong = createAsyncThunk("song/addSong", async (data:SongPropData, { rejectWithValue }) => {
     
     try {
         const formData = new FormData();
@@ -44,9 +53,7 @@ export const addSong = createAsyncThunk("song/addSong", async (data:SongProp, { 
             error: "Something went wrong",
         })
 
-        console.log("response", await response);
-
-        return (await response).data
+        return (await response).data.data as SongResponse 
 
 
     } catch (error:any) {
@@ -56,13 +63,41 @@ export const addSong = createAsyncThunk("song/addSong", async (data:SongProp, { 
 });
 
 
+export const getAllSongs = createAsyncThunk('song/getAllSong', async (_, { rejectWithValue }) => {
+    try {
+        const response = axiosInstance.get('/songs/all');
+
+        toast.promise(response, {
+            loading: "Wait! Fetching songs...",
+            success: "Songs fetched successfully",
+            error: "Something went wrong",
+        })
+
+        return (await response)?.data?.data as SongResponse[]
+    } catch (error:string | any) {
+        toast.error(error?.response?.data?.message || "An error occurred");
+        return rejectWithValue(error?.response?.data || { message: "Error" });
+    }
+})
+
+
 
 
 export const songSlice = createSlice({
     name: "song",
     initialState,
     reducers:{},
-    extraReducers: (builder) => {}
+    extraReducers: (builder) => {
+        builder
+        .addCase(addSong.fulfilled, (state, action)=>{
+            state.songs = [...state.songs, action.payload];
+        })
+
+        .addCase(getAllSongs.fulfilled, (state, action)=>{
+            //console.log("action.payload", action.payload);
+            state.songs = action.payload;
+        })
+    }
 })
 
 

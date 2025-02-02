@@ -121,13 +121,13 @@ function AddSongModal({close}:{close:()=>void}){
     const inputStyle = "w-full bg-zinc-900 text-sm font-medium text-white placeholder-zinc-500 cursor-pointer outline-none border border-gray-400 rounded-md py-2 px-3 hover:border-white focus:border-none  focus:outline focus:outline-white" 
 
     return(
-        <div className="w-1/3 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-2xl rounded-lg">
+        <div className="w-2/5 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 shadow-2xl rounded-lg  ">
            <GradientWrapper graditientStyles="custom-gradient-gray rounded-lg">
-           <div className="w-full h-full p-6 flex flex-col items-center relative">
+           <div className="w-full h-full py-4 flex flex-col items-center relative">
                 <button className="absolute top-4 right-4 ">
                     <IoClose className="w-6 h-6 text-gray-200" onClick={close}/>
                 </button>
-                <div className="w-full ">
+                <div className="w-full pl-6">
                     <h3 className="text-lg font-semibold font-nunito text-white">
                         Add New Song
                     </h3>
