@@ -3,10 +3,12 @@ import AddAlbumModal from "../../../pages/admin/AddAlbumModal";
 import useModal from "../../../hooks/useModal";
 import { MdDeleteOutline } from "react-icons/md";
 import { MdDateRange } from "react-icons/md";
-
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import { deleteAlbum } from "../../../redux/slices/album-slice";
 
 
 interface AlbumPropResponse{
+  _id:string,
   title:string,
   artist:string,
   thumbnail:string,
@@ -23,6 +25,13 @@ interface Props{
 const AlbumTableAdmin : React.FC<Props> = ({albums=[]}) => {
 
     const {isModalOpen, open, close} = useModal();
+    const dispatch = useAppDispatch();
+
+    function handleAlbumDelete(albumId: string) {
+      console.log("albumId", albumId);
+      dispatch(deleteAlbum(albumId));
+
+    }
   
     return (
         <div className="max-w-7xl mx-auto w-full h-auto flex flex-col items-center p-6 rounded-lg bg-[#333333]">
@@ -107,8 +116,10 @@ const AlbumTableAdmin : React.FC<Props> = ({albums=[]}) => {
                     </div>
                     </td>
                     <td className="w-1/5">
-                     <div className="w-full pr-4 flex items-center justify-end">
-                     <MdDeleteOutline className="w-5 h-5 text-red-500" />
+                     <div
+                        onClick={()=>handleAlbumDelete(song._id)} 
+                        className="w-full pr-4 flex items-center justify-end cursor-pointer">
+                        <MdDeleteOutline className="w-5 h-5 text-red-500" />
                      </div>
                     </td>
                   </tr>

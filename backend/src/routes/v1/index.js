@@ -100,7 +100,7 @@ router.get('/songs/:title', authenticate, getSongByTitle);
 
 router.post('/admin/albums/add', authenticate, requireAdmin, upload.single('thumbnail')             , createAlbum)
 
-router.delete('/admin/album/:albumId', authenticate, requireAdmin, deleteAlbum);
+router.delete('/admin/albums/:albumId', authenticate, requireAdmin, deleteAlbum);
 
 router.get('/albums/all',  getAllAlbums);
 

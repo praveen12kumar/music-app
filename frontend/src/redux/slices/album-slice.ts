@@ -10,6 +10,7 @@ interface AlbumPropData{
 }
 
 interface AlbumPropResponse{
+    _id:string,
     title:string,
     artist:string,
     thumbnail:string,
@@ -74,6 +75,25 @@ export const getAllAlbums = createAsyncThunk("album/getAllAlbums", async (_, { r
 })
 
 
+export const deleteAlbum = createAsyncThunk("album/deleteAlbum", async (albumId:string, { rejectWithValue }) => {
+    try {
+        const response = axiosInstance.delete(`/admin/albums/${albumId}`);
+
+        toast.promise(response, {
+            loading: "Wait! Deleting album...",
+            success: "Album deleted successfully",
+            error: "Something went wrong",
+        })
+
+        return (await response)?.data?.data as AlbumPropResponse;
+
+    } catch (error : string | any) {
+        toast.error(error?.response?.data?.message || "An error occurred");
+        return rejectWithValue(error?.response?.data || { message: "Error" });
+    }
+})
+
+
 
 export const albumSlice = createSlice({
     name: "album",
@@ -87,6 +107,11 @@ export const albumSlice = createSlice({
 
         .addCase(getAllAlbums.fulfilled, (state, action) => {
             state.albums = action.payload;
+        })
+
+        .addCase(deleteAlbum.fulfilled, (state, action) => {
+            console.log("action.payload", action.payload);
+            state.albums = state.albums.filter((album) => album?._id !== action.payload._id);
         })
     }
 })

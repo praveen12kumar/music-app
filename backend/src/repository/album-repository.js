@@ -33,7 +33,8 @@ class AlbumRepository extends CrudRepository{
 
     async deleteAlbum(albumId){
         try {
-            await Album.findByIdAndDelete(albumId)
+            const result =  await Album.findByIdAndDelete(albumId)
+            return result;
         } catch (error) {
             throw error
         }

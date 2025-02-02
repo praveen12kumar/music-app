@@ -56,17 +56,19 @@ class AlbumService {
 
     async deleteAlbum(albumId) {
         try {
+            // to delete an album, first we need to delete the songs associated with it
             const result = await this.songRepository.deleteSongs(albumId)
-
+            
             if(!result.acknowledged){
                 throw{
                     message:"Songs not deleted",
                     success: false
                 }
             }
-
-            await this.albumRepository.deleteAlbum(albumId);
-
+            // then delete the album
+            const album = await this.albumRepository.deleteAlbum(albumId);
+        
+            return album
         } catch (error) {
             throw error
         }

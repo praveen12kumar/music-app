@@ -62,6 +62,7 @@ export const createAlbum = async (req, res) => {
 export const deleteAlbum = async (req, res) => {
     try {
         const album = await albumService.deleteAlbum(req.params.albumId);
+        
         return res.status(200).json({
             success: true,
             data: album,
