@@ -5,7 +5,7 @@ const albumService = new AlbumService();
 export const createAlbum = async (req, res) => {
     try {
         const {title, artist, releaseYear} = req.body;
-       
+        
         const localThumbnailPath = req.file?.path;
         //console.log(localThumbnailPath);
         
@@ -20,6 +20,7 @@ export const createAlbum = async (req, res) => {
 
 
     } catch (error) {
+        console.log("error", error);
         if(error.message === "All fields are required") {
             return res.status(403).json({
                 success: false,

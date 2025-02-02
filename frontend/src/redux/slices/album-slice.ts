@@ -36,7 +36,10 @@ export const addAlbum = createAsyncThunk("album/addAlbum", async (data:AlbumProp
     formdata.append("thumbnail", data.thumbnail);
 
     try {
-        const response = axiosInstance.post("/admin/albums/add", formdata );
+        const response = axiosInstance.post("/admin/albums/add", formdata,{
+            headers:
+            { "Content-Type": "multipart/form-data" },
+        } );
 
         toast.promise(response, {
             loading: "Wait! Adding album...",

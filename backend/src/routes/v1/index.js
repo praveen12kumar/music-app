@@ -69,8 +69,11 @@ router.post('/reset-password/:token',  resetPassword);
 //--------------user----------------------
 
 router.get("/users", authenticate, getUserDetails);
+
 router.get('/users/all', authenticate, requireAdmin, getAllUsers);
+
 router.put('/users/update-profile',authenticate, upload.single('avatar'), updateUserProfile);
+
 router.get('/users/:id', authenticate, findUserById);
 
 // -------song-----------
@@ -95,7 +98,7 @@ router.get('/songs/:title', authenticate, getSongByTitle);
 
 //-------------------Album -----------------------
 
-router.post('/admin/albums/add',upload.single('thumbnail'), authenticate, requireAdmin,  createAlbum)
+router.post('/admin/albums/add', authenticate, requireAdmin, upload.single('thumbnail')             , createAlbum)
 
 router.delete('/admin/album/:albumId', authenticate, requireAdmin, deleteAlbum);
 
