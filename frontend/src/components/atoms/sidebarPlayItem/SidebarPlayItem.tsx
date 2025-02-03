@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { FaPlay } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 
 interface SidebarPlayItemProps {
+    id:string;
     image:string;
     name:string;
 }
 
-const SidebarPlaylistItem : React.FC<SidebarPlayItemProps> = ({image, name}) => {
+const SidebarPlaylistItem : React.FC<SidebarPlayItemProps> = ({id,image, name}) => {
+    const navigate = useNavigate();
 
     const [play, setPlay] = useState(false);
 
@@ -15,6 +18,7 @@ const SidebarPlaylistItem : React.FC<SidebarPlayItemProps> = ({image, name}) => 
     <div className={`w-full flex items-center gap-3 pl-2 py-1 rounded-sm relative hover:bg-[#333333] cursor-pointer`}
         onMouseEnter={() => setPlay(true)}
         onMouseLeave={() => setPlay(false)}
+        onClick={()=>navigate(`/album/${id}`)}
         >
         <div className="w-12 h-12 object-cover">
             <img src={image} className="w-full h-full rounded-full" alt="artist image" />

@@ -23,7 +23,7 @@ const SidebarPlaylist = () => {
            
           {
             albums && albums?.map((item, index) => (
-              <SidebarPlaylistItem key={index} image={item.thumbnail} name={item?.title} />
+              <SidebarPlaylistItem key={index} id={item._id} image={item.thumbnail} name={item?.title} />
             ))
           }
 

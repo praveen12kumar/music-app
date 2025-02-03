@@ -104,7 +104,7 @@ router.delete('/admin/albums/:albumId', authenticate, requireAdmin, deleteAlbum)
 
 router.get('/albums/all',  getAllAlbums);
 
-router.get('/album/:albumId', getAlbumDetails);
+router.get('/albums/:albumId', getAlbumDetails);
 
 
 

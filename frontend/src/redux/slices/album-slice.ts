@@ -9,23 +9,38 @@ interface AlbumPropData{
     releaseYear:number 
 }
 
+interface Song{
+    _id:string;
+    title:string;
+    artist:string;
+    albumId:string | null;
+    thumbnail:string;
+    songUrl:string;
+    duration:number
+    createdAt:string;
+    updatedAt:string;
+}
+
 interface AlbumPropResponse{
+    createdAt: any;
     _id:string,
     title:string,
     artist:string,
     thumbnail:string,
     releaseYear:number,
-    songs?:string[], 
+    songs?: Song[], 
 }
 
 interface AlbumState {
-    albums: AlbumPropResponse[]
+    albums: AlbumPropResponse[],
+    album: AlbumPropResponse
 }
 
 
 
 const initialState: AlbumState = {
-    albums: []
+    albums: [],
+    album: null as unknown as AlbumPropResponse 
 }
 
 export const addAlbum = createAsyncThunk("album/addAlbum", async (data:AlbumPropData, { rejectWithValue }) => {
@@ -94,6 +109,26 @@ export const deleteAlbum = createAsyncThunk("album/deleteAlbum", async (albumId:
 })
 
 
+export const getAlbumDetails = createAsyncThunk('album/getAllDetails', async(albumId:string, {rejectWithValue})=>{
+    try{
+        const response = axiosInstance.get(`/albums/${albumId}`);
+
+        toast.promise(response, {
+            loading: "Wait! Fetching album details...",
+            success: "Album details fetched successfully",
+            error: "Something went wrong",
+        })
+
+        console.log("response", await response);
+        return (await response).data;
+    }
+    catch(error:string | any){
+        toast.error(error?.response?.data?.message || "An error occurred");
+        return rejectWithValue(error?.response?.data || { message: "Error" });
+    }
+})
+
+
 
 export const albumSlice = createSlice({
     name: "album",
@@ -112,6 +147,11 @@ export const albumSlice = createSlice({
         .addCase(deleteAlbum.fulfilled, (state, action) => {
             console.log("action.payload", action.payload);
             state.albums = state.albums.filter((album) => album?._id !== action.payload._id);
+        })
+
+        .addCase(getAlbumDetails.fulfilled, (state,action)=>{
+            console.log("action.payload", action.payload);
+            state.album = action.payload.data;
         })
     }
 })

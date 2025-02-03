@@ -85,8 +85,8 @@ class AlbumService {
 
     async getAlbumDetails(albumId) {
         try {
-            const ablum = await this.albumRepository.get(albumId).populate("songs");
-            console.log("album",ablum);
+            const ablum = await this.albumRepository.getAlbumDetailsRepo(albumId)
+            //console.log("album",ablum);
 
             if(!ablum){
                 throw{

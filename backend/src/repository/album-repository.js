@@ -40,6 +40,14 @@ class AlbumRepository extends CrudRepository{
         }
     }
 
+    async getAlbumDetailsRepo(albumId) {
+        try {
+            const response = await Album.findById(albumId).populate("songs");
+            return response;
+        } catch (error) {
+            
+        }
+    }
 
     
 

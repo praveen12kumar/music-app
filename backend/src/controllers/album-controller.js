@@ -101,6 +101,7 @@ export const getAllAlbums = async(req, res)=>{
 
 export const getAlbumDetails = async(req, res)=>{
     try {
+        
         const album = await albumService.getAlbumDetails(req.params.albumId);
         return res.status(200).json({
             success: true,

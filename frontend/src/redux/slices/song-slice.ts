@@ -24,10 +24,16 @@ interface SongResponse {
 
 interface SongState {
     songs: SongResponse[];
+    featuredSongs:SongResponse[];
+    madeForYouSongs:SongResponse[];
+    trendingSongs:SongResponse[];
 }
 
 const initialState: SongState = {
     songs: [],
+    featuredSongs:[],
+    madeForYouSongs:[],
+    trendingSongs:[]
 };
 
 export const addSong = createAsyncThunk("song/addSong", async (data:SongPropData, { rejectWithValue }) => {
@@ -78,7 +84,9 @@ export const getAllSongs = createAsyncThunk('song/getAllSong', async (_, { rejec
         toast.error(error?.response?.data?.message || "An error occurred");
         return rejectWithValue(error?.response?.data || { message: "Error" });
     }
-})
+});
+
+
 
 
 

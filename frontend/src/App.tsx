@@ -14,6 +14,8 @@ import Denied from './pages/Denied';
 import NotFound from './pages/NotFound';
 import RequireAuth from './pages/auth/requireAuth/RequireAuth';
 import AdminPage from './pages/admin/Admin';
+import AlbumPage from './pages/album/AlbumPage';
+
 
 
 function App() {
@@ -30,7 +32,9 @@ function App() {
         <Route path='/about' element={<AboutUs/>}/>
         <Route path='/contact' element={<ContactUs/>}/>
         <Route path='/denied' element={<Denied/>}/>
+        <Route path='/album/:albumId' element={<PlayerLayout><AlbumPage/></PlayerLayout>}/>
         <Route path="*" element={<NotFound/>}/>
+
 
         //--------------ADMIN---------------------
           <Route element={<RequireAuth allowedRoles={['ADMIN']}/>}>
