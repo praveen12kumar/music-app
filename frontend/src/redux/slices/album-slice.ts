@@ -16,14 +16,14 @@ interface Song{
     albumId:string | null;
     thumbnail:string;
     songUrl:string;
-    duration:number
+    duration:number;
     createdAt:string;
     updatedAt:string;
 }
 
 interface AlbumPropResponse{
-    createdAt: any;
     _id:string,
+    createdAt: string;
     title:string,
     artist:string,
     thumbnail:string,

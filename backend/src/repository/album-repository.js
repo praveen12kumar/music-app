@@ -8,12 +8,17 @@ class AlbumRepository extends CrudRepository{
     }
 
     async addSongToAlbum(albumId, songId){
+        // console.log("albumId", albumId);
+        // console.log("songId", songId);
         try {
-            await Album.findByIdAndUpdate(albumId, {
+            const response = await Album.findByIdAndUpdate(albumId, {
                 $push:{
                     songs: songId
                 }
             })
+
+            //console.log("response", response);
+
         } catch (error) {
             throw error
         }

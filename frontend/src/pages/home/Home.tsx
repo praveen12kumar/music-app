@@ -14,11 +14,6 @@ const Home = () => {
 
   const {trendingSongs, featuredSongs, madeForYouSongs} = useSelector((state: RootState)=> state.songs);
 
-  console.log("trendingSongs",trendingSongs);
-  console.log("featuredSongs",featuredSongs);
-  console.log("madeForYou",madeForYouSongs);
-
-
   useEffect(()=>{
     const fetchAll = async()=>{
       await Promise.all([

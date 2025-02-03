@@ -3,9 +3,11 @@ import { MdDeleteOutline } from "react-icons/md";
 import { MdDateRange } from "react-icons/md";
 import useModal from "../../../hooks/useModal";
 import AddSongModal from "../../../pages/admin/AddSongModal";
-
+import { useAppDispatch } from "../../../hooks/useAppDispatch";
+import { deleteSong } from "../../../redux/slices/song-slice";
 
 interface SongProp {
+  _id:string;
   title: string;
   artist: string;
   album: string;
@@ -22,7 +24,16 @@ interface Props {
 
 const SongsTableAdmin: React.FC<Props> = ({ songs = []}) => {
 
+  const dispatch = useAppDispatch();
+
   const { isModalOpen, open, close } = useModal();
+
+  function handleSongDelete(id:string){
+    if(id){
+      dispatch(deleteSong(id));
+    }
+  }
+
 
   return (
     <div className="max-w-7xl mx-auto w-full h-auto flex flex-col items-center p-6 rounded-lg bg-[#333333] relative">
@@ -103,8 +114,10 @@ const SongsTableAdmin: React.FC<Props> = ({ songs = []}) => {
                     </p>
                   </div>
                 </td>
-                <td className="w-1/4">
-                  <div className="w-full pr-4 flex items-center justify-end">
+                <td className="w-1/4"
+                  onClick={()=>handleSongDelete(song?._id)}
+                  >
+                  <div className="w-full pr-4 flex items-center justify-end cursor-pointer">
                     <MdDeleteOutline className="w-5 h-5 text-red-500" />
                   </div>
                 </td>

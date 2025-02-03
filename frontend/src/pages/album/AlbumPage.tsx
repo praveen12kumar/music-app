@@ -13,9 +13,7 @@ import { IoTimeOutline } from "react-icons/io5";
 function AlbumPage() {
     const {albumId} = useParams();
     const id = albumId || "";
-
-    console.log("id", id);
-
+    
     const dispatch = useAppDispatch();
     const {album}  = useSelector((state: RootState)=> state.albums);
     console.log(album);
@@ -69,7 +67,7 @@ function AlbumPage() {
                     {
                         album?.songs?.map((song,index)=>{
                             return(
-                                <div className="font-nunito grid grid-cols-[0.5fr_3fr_1.5fr_1fr] w-full text-sm text-gray-300 gap-4 p-2  hover:bg-white/5 rounded-md group cursor-pointer border-b border-gray-700 px-10">
+                                <div key={song._id} className="font-nunito grid grid-cols-[0.5fr_3fr_1.5fr_1fr] w-full text-sm text-gray-300 gap-4 p-2  hover:bg-white/5 rounded-md group cursor-pointer border-b border-gray-700 px-10">
                                     <div className="flex items-center justify-center">
                                         <span className="group-hover:hidden">{index+1}</span>
                                         <FaPlay className="h-4 w-4 hidden group-hover:block" />

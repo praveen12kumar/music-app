@@ -14,6 +14,7 @@ class SongService{
 
     async createSong(data){
         const {title, artist, duration, albumId, localSongPath, localThumbnailPath } = data;
+        
         try {
             const song = await this.songRepository.songByTitle(data.title);
         

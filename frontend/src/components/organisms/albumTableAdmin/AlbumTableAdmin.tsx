@@ -18,7 +18,8 @@ interface AlbumPropResponse{
   createdAt?:string
 }
 interface Props{
-  albums:AlbumPropResponse[]
+  albums:AlbumPropResponse[];
+  album:AlbumPropResponse
 }
 
 

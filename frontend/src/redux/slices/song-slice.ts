@@ -39,12 +39,12 @@ const initialState: SongState = {
 };
 
 export const addSong = createAsyncThunk("song/addSong", async (data:SongPropData, { rejectWithValue }) => {
-    
+    console.log("data", data);
     try {
         const formData = new FormData();
         formData.append("title", data.title);
         formData.append("artist", data.artist);
-        formData.append("album", data.album);
+        formData.append("albumId", data.album);
         formData.append("duration", data.duration);
         formData.append("thumbnail", data.thumbnail);
         formData.append("song", data.song);
@@ -89,9 +89,9 @@ export const getAllSongs = createAsyncThunk('song/getAllSong', async (_, { rejec
 });
 
 
-export const deleteSong = createAsyncThunk('song/deleteSong', async(_, {rejectWithValue})=>{
+export const deleteSong = createAsyncThunk('song/deleteSong', async(id:string, {rejectWithValue})=>{
     try {
-        const response = axiosInstance.delete('/admin/songs/delete');
+        const response = axiosInstance.delete(`/admin/songs/${id}`);
 
         toast.promise(response, {
             loading: "Wait! Deleting song...",

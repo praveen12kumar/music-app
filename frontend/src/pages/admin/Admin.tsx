@@ -24,8 +24,8 @@ function AdminPage() {
   const { songs } = useSelector((state: RootState) => state.songs);
   const { albums } = useSelector((state: RootState) => state.albums);
 
-  console.log("songs", songs);
-  console.log("albums", albums);
+  // console.log("songs", songs);
+  // console.log("albums", albums);
 
   useEffect(() => {
     const fetchData = async () => {
