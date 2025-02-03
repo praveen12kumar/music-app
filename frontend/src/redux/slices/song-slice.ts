@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { axiosInstance } from "../../helpers/axiosInstance";
 import toast from "react-hot-toast";
 
+
 interface SongPropData{
     title:string,
     artist:string,
@@ -12,6 +13,7 @@ interface SongPropData{
     albumId?:string
 }
 interface SongResponse {
+    _id:string;
     title: string;
     artist: string;
     album: string;
@@ -87,6 +89,78 @@ export const getAllSongs = createAsyncThunk('song/getAllSong', async (_, { rejec
 });
 
 
+export const deleteSong = createAsyncThunk('song/deleteSong', async(_, {rejectWithValue})=>{
+    try {
+        const response = axiosInstance.delete('/admin/songs/delete');
+
+        toast.promise(response, {
+            loading: "Wait! Deleting song...",
+            success: "Song deleted successfully",
+            error: "Something went wrong",
+        })
+        return (await response).data.data as SongResponse
+    } catch (error:string | any) {
+        toast.error(error?.response?.data?.message || "An error occurred");
+        return rejectWithValue(error?.response?.data || { message: "Error" });
+    }
+})
+
+
+export const getTrendingSongs = createAsyncThunk('song/getTrendingSong', async (_, { rejectWithValue }) => {
+    try {
+        const response = axiosInstance.get('/songs/trending');
+
+        toast.promise(response, {
+            loading: "Wait! Fetching songs...",
+            success: "Songs fetched successfully",
+            error: "Something went wrong",
+        })
+
+        console.log("response", await response);
+        return (await response)?.data?.data as SongResponse[]
+    } catch (error: string | any) {
+        toast.error(error?.response?.data?.message || "An error occurred");
+        return rejectWithValue(error?.response?.data || { message: "Error" });
+    }
+});
+
+
+export const getFeaturedSongs = createAsyncThunk('song/getFeaturedSong', async (_, { rejectWithValue }) => {
+    try {
+        const response = axiosInstance.get('/songs/featured');
+
+        toast.promise(response, {
+            loading: "Wait! Fetching songs...",
+            success: "Songs fetched successfully",
+            error: "Something went wrong",
+        })
+
+        console.log("response", await response);
+        return (await response)?.data?.data as SongResponse[]
+    } catch (error: string | any) {
+        toast.error(error?.response?.data?.message || "An error occurred");
+        return rejectWithValue(error?.response?.data || { message: "Error" });
+    }
+});
+
+
+export const getMadeForYou = createAsyncThunk('song/getMadeForYou', async (_, { rejectWithValue }) => {
+    try {
+        const response = axiosInstance.get('/songs/made-for-you');
+
+        toast.promise(response, {
+            loading: "Wait! Fetching songs...",
+            success: "Songs fetched successfully",
+            error: "Something went wrong",
+        })
+
+        console.log("response", await response);
+        return (await response)?.data?.data as SongResponse[]
+    } catch (error: string | any) {
+        toast.error(error?.response?.data?.message || "An error occurred");
+        return rejectWithValue(error?.response?.data || { message: "Error" });
+    }
+})
 
 
 
@@ -104,6 +178,26 @@ export const songSlice = createSlice({
         .addCase(getAllSongs.fulfilled, (state, action)=>{
             //console.log("action.payload", action.payload);
             state.songs = action.payload;
+        })
+
+        .addCase(deleteSong.fulfilled, (state, action)=>{
+            state.songs = state.songs?.filter((song) => song?._id !== action.payload._id);
+        })
+
+        .addCase(getTrendingSongs.fulfilled, (state, action)=>{
+            console.log("action.payload", action.payload);
+            state.trendingSongs = action.payload;
+        })
+
+        .addCase(getFeaturedSongs.fulfilled, (state, action)=>{
+            console.log("action.payload", action.payload);
+            state.featuredSongs = action.payload;
+        })
+
+
+        .addCase(getMadeForYou.fulfilled, (state, action)=>{
+            console.log("action.payload", action.payload);
+            state.madeForYouSongs = action.payload;
         })
     }
 })

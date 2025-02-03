@@ -99,7 +99,7 @@ export const deleteAlbum = createAsyncThunk("album/deleteAlbum", async (albumId:
             success: "Album deleted successfully",
             error: "Something went wrong",
         })
-
+        console.log("album response", await response);
         return (await response)?.data?.data as AlbumPropResponse;
 
     } catch (error : string | any) {
@@ -146,6 +146,7 @@ export const albumSlice = createSlice({
 
         .addCase(deleteAlbum.fulfilled, (state, action) => {
             console.log("action.payload", action.payload);
+            
             state.albums = state.albums.filter((album) => album?._id !== action.payload._id);
         })
 
