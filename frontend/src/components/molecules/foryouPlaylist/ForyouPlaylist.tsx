@@ -1,6 +1,7 @@
 
 import AlbumCard from '../../atoms/albumCard/AlbumCard';
 interface SongResponse {
+    _id: string;
     title: string;
     artist: string;
     album: string;
@@ -8,6 +9,7 @@ interface SongResponse {
     thumbnail: string; // URL when receiving
     song: string;      // URL when receiving
     albumId?: string;
+    songUrl?:string;
 }
 
 interface Props {
@@ -16,13 +18,13 @@ interface Props {
 
 
 const ForyouPlaylist :React.FC<Props> = ({songs}) => {
-    
+    console.log("Songs", songs);
     return (
     <div className='w-full flex flex-row gap-4'>
         {
-            songs && songs?.map((album, index)=>{
+            songs && songs?.map((song)=>{
                 return(
-                    <AlbumCard key={index} image={album?.thumbnail} text={album?.title} />
+                    <AlbumCard key={song._id} song={song} />
                 )
             })
         }

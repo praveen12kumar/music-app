@@ -17,12 +17,12 @@ const  PlayerLayout: React.FC<PlayerLayoutProps> = ({children}) => {
             </div>
 
             {/*Sidebar */}
-                <div className="absolute top-16 left-0 w-72 h-[calc(100vh-10rem)]">
+                <div className="absolute top-16 left-0 w-72 h-[calc(100vh-11rem)]">
                     <Sidebar/>
                 </div>
             {/*Main Player */}
 
-                <div className="absolute top-16 left-72 w-[calc(100%-16rem)] h-[calc(100vh-10rem)]  my-2 ml-3 rounded-lg">
+                <div className="absolute top-16 left-72 w-[calc(100%-16rem)] h-[calc(100vh-11rem)] overflow-y-scroll my-2 ml-3 rounded-lg">
                     
                         {children}
                     
@@ -31,7 +31,7 @@ const  PlayerLayout: React.FC<PlayerLayoutProps> = ({children}) => {
 
             {/*Mini Player */}
             
-            <div className="absolute bottom-0 left-0 w-full h-24 ">
+            <div className="absolute bottom-0 left-0 w-full h-28 ">
                 <Player/>
             </div>
            

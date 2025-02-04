@@ -13,7 +13,8 @@ const Home = () => {
   const dispatch = useAppDispatch();
 
   const {trendingSongs, featuredSongs, madeForYouSongs} = useSelector((state: RootState)=> state.songs);
-
+  //console.log("trendingSongs",trendingSongs);
+  
   useEffect(()=>{
     const fetchAll = async()=>{
       await Promise.all([

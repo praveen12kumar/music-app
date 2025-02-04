@@ -6,7 +6,8 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../redux/store/store";
 import { FaPlay } from "react-icons/fa";
 import { IoTimeOutline } from "react-icons/io5";
-
+import { playAlbum, togglePlay } from "../../redux/slices/player-slice";
+import { FaMusic, FaPause } from "react-icons/fa6";
 
 
 
@@ -16,6 +17,8 @@ function AlbumPage() {
     
     const dispatch = useAppDispatch();
     const {album}  = useSelector((state: RootState)=> state.albums);
+
+    const {currentSong, isPlaying} = useSelector((state: RootState)=> state.player);
     console.log(album);
     
     function formatDuration(duration: number) {
@@ -24,6 +27,25 @@ function AlbumPage() {
         return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
     }
 
+
+    function handlePlaySong(index:number){
+        if(!album) return;
+        dispatch(playAlbum({songs: album.songs, startIndex: index}));
+    }
+
+    function handlePlayAlbum(){
+        if(!album){
+            return;
+        }
+
+        const isCurrentAlbumPlaying = album?.songs?.some((song)=> song._id === currentSong?._id);
+        if(isCurrentAlbumPlaying){
+            dispatch(togglePlay());
+        }
+        else{
+            playAlbum({songs: album.songs, startIndex: 0});
+        }
+    }
 
 
     useEffect(()=>{
@@ -35,7 +57,7 @@ function AlbumPage() {
 
 
     return (
-        <div className="w-full min-h-fit h-full rounded-md custom-gradient-black">
+        <div className="w-full rounded-md custom-gradient-black">
             <div className="w-full flex flex-col items-center gap-2 p-6 custom-gradient-green rounded-tl-lg rounded-tr-lg">
                 <div className="w-full flex items-center gap-4 ">
                     <img className="w-60 h-60 object-cover rounded-md" src={album?.thumbnail} alt="" />
@@ -52,8 +74,15 @@ function AlbumPage() {
                 </div>
             </div>
             <div className="w-full px-10 py-4">
-                    <div className="w-16 h-16 bg-green-600 flex items-center rounded-full justify-center hover:bg-green-500 transition-all ease-in-out duration-200 hover:scale-105  cursor-pointer">
-                        <FaPlay className="size-6 text-black"/>
+                    <div 
+                        onClick={handlePlayAlbum}
+                        className="w-16 h-16 bg-green-600 flex items-center rounded-full justify-center hover:bg-green-500 transition-all ease-in-out duration-200 hover:scale-105  cursor-pointer">
+                        {
+                            isPlaying && album?.songs?.some((song)=> song._id === currentSong?._id) ? 
+                            <FaPause className="w-6 h-6 text-black" />
+                            :
+                            <FaPlay className="w-6 h-6 text-black" />
+                        }
                     </div>
             </div>
             <div className="w-full">
@@ -66,11 +95,23 @@ function AlbumPage() {
                 <div className="w-full ">
                     {
                         album?.songs?.map((song,index)=>{
+                            const isCurrentSong = currentSong?._id === song._id;
                             return(
-                                <div key={song._id} className="font-nunito grid grid-cols-[0.5fr_3fr_1.5fr_1fr] w-full text-sm text-gray-300 gap-4 p-2  hover:bg-white/5 rounded-md group cursor-pointer border-b border-gray-700 px-10">
+                                <div 
+                                    onClick={() => handlePlaySong(index)}
+                                                        
+                                    key={song._id} className="font-nunito grid grid-cols-[0.5fr_3fr_1.5fr_1fr] w-full text-sm text-gray-300 gap-4 p-2  hover:bg-white/5 rounded-md group cursor-pointer border-b border-gray-700 px-10">
                                     <div className="flex items-center justify-center">
-                                        <span className="group-hover:hidden">{index+1}</span>
-                                        <FaPlay className="h-4 w-4 hidden group-hover:block" />
+                                        {
+                                            isCurrentSong && isPlaying ? (
+                                                <FaMusic className="h-4 w-4 text-green-600" />
+                                            ):(
+                                                <span className="group-hover:hidden">{index+1}</span>
+                                            )
+                                        }
+                                        {
+                                            !isCurrentSong &&  <FaPlay className="h-4 w-4 hidden group-hover:block" />
+                                        }
                                     </div>
                                     <div className="flex items-center gap-3">
                                         <img src={song.thumbnail} alt={song?.title} className="size-10"/>

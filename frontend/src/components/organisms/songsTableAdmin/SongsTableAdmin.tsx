@@ -5,6 +5,7 @@ import useModal from "../../../hooks/useModal";
 import AddSongModal from "../../../pages/admin/AddSongModal";
 import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { deleteSong } from "../../../redux/slices/song-slice";
+import { getStats } from "../../../redux/slices/admin-slice";
 
 interface SongProp {
   _id:string;
@@ -28,10 +29,12 @@ const SongsTableAdmin: React.FC<Props> = ({ songs = []}) => {
 
   const { isModalOpen, open, close } = useModal();
 
-  function handleSongDelete(id:string){
+  async function handleSongDelete(id:string){
     if(id){
-      dispatch(deleteSong(id));
+      await dispatch(deleteSong(id));
     }
+    dispatch(getStats());
+    
   }
 
 
