@@ -8,11 +8,14 @@ import apiRoutes from "./routes/index.js";
 import passport from 'passport';
 import {passportAuth} from "./config/jwt-middleware.js"
 import cookieParser from 'cookie-parser';
-
+import path from 'path';
 
 const app = express();
 
 const morganFormat = ':method :url :status :response-time ms';
+
+const _dirname = path.resolve();
+
 
 app.use(morgan(morganFormat, {
     stream:{
@@ -34,10 +37,17 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 app.use(cookieParser());
-
 app.use('/api', apiRoutes);
 app.use(passport.initialize());
 passportAuth(passport);
+
+
+app.use(express.static(path.join(_dirname, 'frontend/static')));
+
+app.get('*', (_, res)=>{
+    res.sendFile(path.resolve(_dirname, 'frontend', 'dist', 'index.html'));
+})
+
 
 
 
