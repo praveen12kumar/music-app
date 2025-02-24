@@ -19,7 +19,7 @@ function AlbumPage() {
     const {album}  = useSelector((state: RootState)=> state.albums);
 
     const {currentSong, isPlaying} = useSelector((state: RootState)=> state.player);
-    console.log(album);
+    // console.log("ablum hai ye",album);
     
     function formatDuration(duration: number) {
         const minutes = Math.floor(duration / 60);
@@ -30,8 +30,9 @@ function AlbumPage() {
 
     function handlePlaySong(index:number){
         if(!album) return;
-        dispatch(playAlbum({songs: album.songs, startIndex: index}));
+        dispatch(playAlbum({songs: album.songs ?? [], startIndex: index}));
     }
+
 
     function handlePlayAlbum(){
         if(!album){
@@ -43,7 +44,7 @@ function AlbumPage() {
             dispatch(togglePlay());
         }
         else{
-            playAlbum({songs: album.songs, startIndex: 0});
+            playAlbum({songs: album.songs ?? [], startIndex: 0});
         }
     }
 

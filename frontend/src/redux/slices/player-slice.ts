@@ -14,6 +14,7 @@ interface Song {
   updatedAt?: string;
 }
 
+
 interface PlayerState {
   currentSong: Song | null;
   isPlaying: boolean;

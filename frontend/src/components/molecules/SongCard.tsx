@@ -5,7 +5,7 @@ interface SongProp {
     title: string;
     artist: string;
     album: string;
-    duration: string;
+    duration: number;
     thumbnail: string;
     song: string;
     albumId?: string;

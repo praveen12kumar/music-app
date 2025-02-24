@@ -5,10 +5,10 @@ interface SongResponse {
     title: string;
     artist: string;
     album: string;
-    duration: string;
+    duration: number;
     thumbnail: string; // URL when receiving
     song: string;      // URL when receiving
-    albumId?: string;
+    albumId: string | null;
     songUrl?:string;
 }
 

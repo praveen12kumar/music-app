@@ -11,7 +11,7 @@ interface AlbumCardProps {
     title: string;
     artist: string;
     thumbnail: string; // URL when receiving
-    songUrl: string; 
+    songUrl?: string; 
     albumId: string | null;
     duration:number;
     createdAt?:string;
@@ -37,7 +37,7 @@ const AlbumCard = ({song}:SongProp) => {
         dispatch(togglePlay())
        }
        else{
-        dispatch(setCurrentSong(song));
+        dispatch(setCurrentSong({ ...song, songUrl: song.songUrl ?? '' }));
        }
     }
   

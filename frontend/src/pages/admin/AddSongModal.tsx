@@ -15,7 +15,7 @@ interface SongProp {
   title: string;
   artist: string;
   album: string;
-  duration: string;
+  duration: number;
   thumbnail: File | null;
   song: File | null;
 }
@@ -28,7 +28,7 @@ function AddSongModal({ close }: { close: () => void }) {
     title: "",
     artist: "",
     album: "",
-    duration: "",
+    duration: 0,
     thumbnail: null,
     song: null,
   });
@@ -60,7 +60,7 @@ function AddSongModal({ close }: { close: () => void }) {
       title: "",
       artist: "",
       album: "",
-      duration: "",
+      duration: 0,
       thumbnail: null,
       song: null,
     });

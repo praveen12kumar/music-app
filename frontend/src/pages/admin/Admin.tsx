@@ -91,8 +91,7 @@ function AdminPage() {
 
         {/* Conditionally Render Modals */}
         
-        
-        
+      
 
         {/* Songs or Albums Table */}
         {toggleSongAlbum ? <SongsTableAdmin  songs={songs || []} /> : <AlbumTableAdmin  albums={albums || []} />}

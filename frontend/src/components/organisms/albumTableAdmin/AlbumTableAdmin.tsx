@@ -7,19 +7,34 @@ import { useAppDispatch } from "../../../hooks/useAppDispatch";
 import { deleteAlbum } from "../../../redux/slices/album-slice";
 import { getAllAlbums } from "../../../redux/slices/album-slice";
 
+interface Song {
+  _id: string;
+  title: string;
+  artist: string;
+  albumId: string | null;
+  thumbnail: string;
+  songUrl: string;
+  duration: number;
+  createdAt: string;
+  updatedAt: string;
+}
 
-interface AlbumPropResponse{
+
+
+interface AlbumProp{
   _id:string,
   title:string,
   artist:string,
   thumbnail:string,
   releaseYear:number,
-  songs?:string[], 
+  songs:Song[]| null, 
   createdAt?:string
 }
+
+
 interface Props{
-  albums:AlbumPropResponse[];
-  album:AlbumPropResponse
+  albums:AlbumProp[];
+  album?:AlbumProp
 }
 
 
@@ -30,7 +45,7 @@ const AlbumTableAdmin : React.FC<Props> = ({albums=[]}) => {
     const dispatch = useAppDispatch();
 
     async function handleAlbumDelete(albumId: string) {
-      console.log("albumId", albumId);
+      //console.log("albumId", albumId);
       await dispatch(deleteAlbum(albumId));
       await dispatch(getAllAlbums());
     }
@@ -82,7 +97,7 @@ const AlbumTableAdmin : React.FC<Props> = ({albums=[]}) => {
             </thead>
             {albums && (
               <tbody className="w-full ">
-                {albums?.map((song: AlbumPropResponse, index: number) => (
+                {albums?.map((song: AlbumProp, index: number) => (
                   <tr key={index} className="w-full border-b  border-gray-600">
                     <td className="w-1/5 py-2">
                       <div className="flex items-center justify-start gap-8">

@@ -7,7 +7,7 @@ interface SongPropData{
     title:string,
     artist:string,
     album:string,
-    duration:string,
+    duration:number,
     thumbnail:File,
     song:File,
     albumId?:string
@@ -17,10 +17,10 @@ interface SongResponse {
     title: string;
     artist: string;
     album: string;
-    duration: string;
+    duration: number;
     thumbnail: string; // URL when receiving
     song: string;      // URL when receiving
-    albumId?: string;
+    albumId: string | null;
 }
 
 
@@ -45,7 +45,7 @@ export const addSong = createAsyncThunk("song/addSong", async (data:SongPropData
         formData.append("title", data.title);
         formData.append("artist", data.artist);
         formData.append("albumId", data.album);
-        formData.append("duration", data.duration);
+        formData.append("duration", data.duration.toString());
         formData.append("thumbnail", data.thumbnail);
         formData.append("song", data.song);
 

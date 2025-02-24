@@ -9,17 +9,17 @@ interface AlbumPropData{
     releaseYear:number 
 }
 
-interface Song{
-    _id:string;
-    title:string;
-    artist:string;
-    albumId:string | null;
-    thumbnail:string;
-    songUrl:string;
-    duration:number;
-    createdAt:string;
-    updatedAt:string;
-}
+interface Song {
+    _id: string;
+    title: string;
+    artist: string;
+    albumId: string | null;
+    thumbnail: string;
+    songUrl: string;
+    duration: number;
+    createdAt: string;
+    updatedAt: string;
+  }
 
 interface AlbumPropResponse{
     _id:string,
@@ -28,7 +28,7 @@ interface AlbumPropResponse{
     artist:string,
     thumbnail:string,
     releaseYear:number,
-    songs?: Song[], 
+    songs: Song[] | null, 
 }
 
 interface AlbumState {
@@ -62,7 +62,6 @@ export const addAlbum = createAsyncThunk("album/addAlbum", async (data:AlbumProp
             success: "Album added successfully",
             error: "Something went wrong",
         })
-
         return (await response)?.data?.data as AlbumPropResponse;
 
     } catch (error:string | any) {
@@ -74,7 +73,7 @@ export const addAlbum = createAsyncThunk("album/addAlbum", async (data:AlbumProp
 export const getAllAlbums = createAsyncThunk("album/getAllAlbums", async (_, { rejectWithValue }) => {
     try {
         const response = axiosInstance.get("/albums/all");
-
+        console.log("response album", await response);    
         toast.promise(response, {
             loading: "Wait! Fetching albums...",
             success: "Albums fetched successfully",
